@@ -4,18 +4,19 @@ namespace MP3Player.Models
 {
     public class Playlist : INotifyPropertyChanged
     {
+        private ObservableCollection<string> songsList;
+        private string selectedSong;
+        
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string property) => 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-
-        private ObservableCollection<string> songsList;
+            
         public ObservableCollection<string> SongsList
         {
             get => songsList;
             set => songsList = value;
         }
 
-        private string selectedSong;
         public string SelectedSong
         {
             get => selectedSong;
@@ -25,7 +26,6 @@ namespace MP3Player.Models
                 OnPropertyChanged("SelectedSong");
             }       
         }
-        public Playlist() => songsList = new ObservableCollection<string> { };
-            
+        public Playlist() => songsList = new ObservableCollection<string> { };            
     }
 }
