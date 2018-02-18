@@ -1,0 +1,116 @@
+﻿<Window x:Class="MP3Player.Views.MP3Player"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MP3Player" Height="650" Width="800">
+    <Grid Background="#3B4347" Name="MainGrid">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4"
+                  ItemsSource="{Binding PlaylistViewModel.Playlist.SongsList}"
+                  SelectedValue="{Binding PlaylistViewModel.Playlist.SelectedSong}"
+                  SelectedItem="{Binding PlaylistViewModel.Playlist.SelectedSongs}"
+                  AllowDrop="False" Background="Black">
+            <ListView.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.DeleteSongFromPlaylist}"/>
+                <KeyBinding Key="Enter" Command="{Binding ElementName=MainGrid, Path=DataContext.SongViewModel.PlaySong}" 
+                                CommandParameter="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.Playlist}"/>
+            </ListView.InputBindings>
+            <ListView.Resources>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Style>
+            </ListView.Resources>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Foreground="#7dff00" Text="{Binding}">
+                        <TextBlock.InputBindings>
+                            <MouseBinding 
+                                MouseAction="LeftDoubleClick" 
+                                Command="{Binding ElementName=MainGrid, Path=DataContext.SongViewModel.PlaySong}" 
+                                CommandParameter="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.Playlist}"/>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="6"
+                   Foreground="White" VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="15" Text="{Binding SongViewModel.SongName}"/>
+
+        <TextBlock Grid.Column="6" Grid.Row="6" Foreground="White" FontSize="15" Text="{Binding SongViewModel.Counter.TimeText}"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <TextBlock  Grid.Column="6" Grid.Row="7" Foreground="White" 
+                    FontSize="15" Text="{Binding SongViewModel.Volume, StringFormat='Volume {0}%'}" 
+                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Slider Minimum="0" Maximum="{Binding SongViewModel.Counter.PositionMax}" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="5" 
+                VerticalAlignment="Center" Value="{Binding SongViewModel.Counter.PositionValue}"/>
+
+        <Slider Minimum="0" Maximum="100" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="5" 
+                VerticalAlignment="Center" Value="{Binding SongViewModel.Volume}" />
+
+        <Button Grid.Column="1" Grid.Row="8" Margin="17"
+                Background="#71818A" Foreground="Black" FontWeight="Bold"
+                Command="{Binding PlaylistViewModel.ClearSongsPaths}" 
+                Content="Clear Playlist"/>
+        
+        <Button Grid.Column="2" Grid.Row="8" Margin="17"
+                Background="#71818A" Foreground="Black" FontWeight="Bold"
+                Command="{Binding PlaylistViewModel.GetSongsPaths}" 
+                Content="Add Songs"/>
+
+        <Button Grid.Column="3" Grid.Row="8"  Margin="17"    
+                Background="#71818A" Foreground="Black" FontWeight="Bold"
+                Command="{Binding Path=SongViewModel.PlaySong}"
+                CommandParameter="{Binding Path=PlaylistViewModel.Playlist}"
+                Content="Play"/>
+
+
+        <Button Grid.Column="4" Grid.Row="8" Margin="17"
+                Background="#71818A" Foreground="Black" FontWeight="Bold"
+                Command="{Binding SongViewModel.PauseSong}"
+                CommandParameter="{Binding PlaylistViewModel.Playlist}"
+                Content="Pause"/>
+
+
+        <Button Grid.Column="5" Grid.Row="8" Margin="17" 
+                Background="#71818A" Foreground="Black" FontWeight="Bold"
+                Command="{Binding SongViewModel.PlayBackSong}"
+                CommandParameter="{Binding PlaylistViewModel.Playlist}"
+                Content="Play Back"/>
+
+        <Button Grid.Column="6" Grid.Row="8" Margin="17" 
+                Background="#71818A" Foreground="Black" FontWeight="Bold"
+                Command="{Binding SongViewModel.PlayNextSong}"
+                CommandParameter="{Binding PlaylistViewModel.Playlist}"
+                Content="Play Next"/>
+    </Grid>
+</Window>
