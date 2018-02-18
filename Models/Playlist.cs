@@ -5,7 +5,8 @@ namespace MP3Player.Models
     public class Playlist : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        public void OnPropertyChanged(string property) => 
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
         private ObservableCollection<string> songsList;
         public ObservableCollection<string> SongsList
