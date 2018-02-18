@@ -92,14 +92,12 @@
                 Command="{Binding Path=SongViewModel.PlaySong}"
                 CommandParameter="{Binding Path=PlaylistViewModel.Playlist}"
                 Content="Play"/>
-
-
+            
         <Button Grid.Column="4" Grid.Row="8" Margin="17"
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
                 Command="{Binding SongViewModel.PauseSong}"
                 CommandParameter="{Binding PlaylistViewModel.Playlist}"
                 Content="Pause"/>
-
 
         <Button Grid.Column="5" Grid.Row="8" Margin="17" 
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
