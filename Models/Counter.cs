@@ -1,22 +1,27 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 namespace MP3Player.Models
 {
     public class Counter : INotifyPropertyChanged
     {
+        private Timer timer;
+        private Song song;
+        private double positionMax;
+        private string timeText;
+        private double positionValue;
+        
         public event PropertyChangedEventHandler PropertyChanged;
         public void PropertyChangedMethod(string property) => 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-
-        private Timer timer;
+            
         public Timer Timer
         {
             get => timer;
             set => timer = value;
         }
 
-        private Song song;
+        
         public Song Song
         {
             get => song;
@@ -27,7 +32,7 @@ namespace MP3Player.Models
             }
         }
 
-        private double positionMax;
+        
         public double PositionMax
         {
             get => positionMax; 
@@ -38,7 +43,7 @@ namespace MP3Player.Models
             }
         }
 
-        private string timeText;
+        
         public string TimeText
         {
             get => timeText; 
@@ -48,7 +53,7 @@ namespace MP3Player.Models
                 PropertyChangedMethod("TimeText");
             }
         }
-        private double positionValue;
+        
         public double PositionValue
         {
             get => positionValue;
