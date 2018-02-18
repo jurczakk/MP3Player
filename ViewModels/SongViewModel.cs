@@ -22,16 +22,9 @@ namespace MP3Player.ViewModels
         public void NotifyPropertyChanged(string property) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
-        
-        public Song Song => song;
-
-        
+        public Song Song => song;        
         public WaveOut Player => player;
-
-        
         public Counter Counter => counter;
-
-        
         public string SongName
         {
             get => songName;
@@ -41,11 +34,7 @@ namespace MP3Player.ViewModels
                 NotifyPropertyChanged("SongName");
             }
         }
-
-        
         public string CurrentlySongPath => currentlySongPath;
-
-        
         public float Volume
         {
             get => volume;
@@ -56,7 +45,7 @@ namespace MP3Player.ViewModels
                 NotifyPropertyChanged("Volume");
             }
         }
-
+        
         public ICommand PlaySong { get; private set; }
         public ICommand PauseSong { get; private set; }
         public ICommand PlayNextSong { get; private set; }
