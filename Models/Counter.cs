@@ -6,7 +6,8 @@ namespace MP3Player.Models
     public class Counter : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public void PropertyChangedMethod(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        public void PropertyChangedMethod(string property) => 
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
         private Timer timer;
         public Timer Timer
