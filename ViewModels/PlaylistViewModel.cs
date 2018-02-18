@@ -1,4 +1,4 @@
-﻿using MP3Player.Commands;
+using MP3Player.Commands;
 using MP3Player.Models;
 using System.Windows.Input;
 using System.Linq;
