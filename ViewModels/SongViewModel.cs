@@ -11,19 +11,27 @@ namespace MP3Player.ViewModels
 {
     public class SongViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-
         private Song song;
+        private WaveOut player;
+        private Counter counter;
+        private string songName;
+        private string currentlySongPath;
+        private float volume;
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string property) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+
+        
         public Song Song => song;
 
-        private WaveOut player;
+        
         public WaveOut Player => player;
 
-        private Counter counter;
+        
         public Counter Counter => counter;
 
-        private string songName;
+        
         public string SongName
         {
             get => songName;
@@ -34,10 +42,10 @@ namespace MP3Player.ViewModels
             }
         }
 
-        private string currentlySongPath;
+        
         public string CurrentlySongPath => currentlySongPath;
 
-        private float volume;
+        
         public float Volume
         {
             get => volume;
@@ -77,7 +85,9 @@ namespace MP3Player.ViewModels
             }
             return false;
         }
-
+        public bool CanPauseSong() => song != null ? song.IsPlaying ? true : false : false;
+        public bool CanPlayBackOrNextSong(Playlist pathsSongs) => pathsSongs != null ? !string.IsNullOrWhiteSpace(pathsSongs.SelectedSong) ? song != null ? true : false : false : false;
+        
         public void PlayMusic(Playlist pathsSongs)
         {
             if ((!song.IsPlaying && song.IsPausing) && (new[] { currentlySongPath, pathsSongs.SelectedSong }.Any(q => q == song.SongPath)))
@@ -91,8 +101,7 @@ namespace MP3Player.ViewModels
                 Player.Pause();
             PlayerHelper(pathsSongs);
         }
-
-        public bool CanPauseSong() => song != null ? song.IsPlaying ? true : false : false;
+        
         public void SongPause(Playlist pathsSongs)
         {
             currentlySongPath = song.SongPath;
@@ -100,8 +109,7 @@ namespace MP3Player.ViewModels
             song.IsPlaying = false;
             song.IsPausing = true;
         }
-
-        public bool CanPlayBackOrNextSong(Playlist pathsSongs) => pathsSongs != null ? !string.IsNullOrWhiteSpace(pathsSongs.SelectedSong) ? song != null ? true : false : false : false;
+        
         public void UniversalPlay(Playlist pathsSongs, PlayType playType)
         {
             if (song.IsPlaying)
