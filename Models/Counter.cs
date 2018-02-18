@@ -21,7 +21,6 @@ namespace MP3Player.Models
             set => timer = value;
         }
 
-        
         public Song Song
         {
             get => song;
@@ -31,7 +30,6 @@ namespace MP3Player.Models
                 positionValue = 0d;
             }
         }
-
         
         public double PositionMax
         {
@@ -43,7 +41,6 @@ namespace MP3Player.Models
             }
         }
 
-        
         public string TimeText
         {
             get => timeText; 
