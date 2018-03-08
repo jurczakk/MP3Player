@@ -1,13 +1,21 @@
 ﻿using NAudio.Wave;
+
 namespace MP3Player.Models
 {
     public class Song
     {
+        private string songName;
         private string songPath;
         private bool isPlaying;
         private bool isPausing;
         private AudioFileReader mp3;
         private float volume;
+
+        public string SongName
+        {
+            get => songName;
+            set => songName = value;
+        }
 
         public string SongPath
         {
@@ -38,20 +46,24 @@ namespace MP3Player.Models
             get => volume;
             set
             {
-                volume = value;
+                volume = float.Parse(value.ToString("0"));
                 if (MP3 != null)
-                    MP3.Volume = Volume;
+                    MP3.Volume = volume/100;
             }
         }
 
         public Song(string path)
         {
             SongPath = path;
-            if (!string.IsNullOrWhiteSpace(path))    
+            if (!string.IsNullOrWhiteSpace(path))
+            {
                 MP3 = new AudioFileReader(path) { Volume = Volume };
+                SongName = path.Split('\\')[path.Split('\\').Length - 1];
+            }
             IsPlaying = false;
             IsPausing = false;
-        }   
+            Volume = 0f;
+        }
 
     }
 }
