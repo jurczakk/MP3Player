@@ -3,34 +3,49 @@ using MP3Player.Enums;
 using MP3Player.Models;
 using NAudio.Wave;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 
 namespace MP3Player.ViewModels
 {
-    public class SongViewModel : BaseViewModel
+    public class SongViewModel : INotifyPropertyChanged
     {
-        private WaveOut player;
-        private Song song;
-        private Counter counter;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
+        private Song song;
+        public Song Song => song;
+
+        private WaveOut player;
         public WaveOut Player => player;
-        public Song Song
+
+        private Counter counter;
+        public Counter Counter => counter;
+
+        private string songName;
+        public string SongName
         {
-            get => song;
+            get => songName;
             set
             {
-                song = value;
-                OnPropertyChanged("Song");
+                songName = value;
+                NotifyPropertyChanged("SongName");
             }
         }
-        public Counter Counter
+
+        private string currentlySongPath;
+        public string CurrentlySongPath => currentlySongPath;
+
+        private float volume;
+        public float Volume
         {
-            get => counter;
+            get => volume;
             set
             {
-                counter = value;
-                OnPropertyChanged("Counter");
+                volume = float.Parse(value.ToString("0"));
+                song.Volume = volume / 100;
+                NotifyPropertyChanged("Volume");
             }
         }
 
@@ -41,113 +56,104 @@ namespace MP3Player.ViewModels
 
         public SongViewModel()
         {
-            Song = new Song(null);
-            Counter = new Counter();
+            song = new Song(null);
+            counter = new Counter();
             player = new WaveOut();
-            PlaySong = new MainCommand(r => CanPlayMusic(r as Playlist), r => PlayMusic(r as Playlist));
-            PauseSong = new MainCommand(r => CanPauseSong(), r => SongPause());
-            PlayNextSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist), r => UniversalPlay(r as Playlist, PlayType.Next));
-            PlayBackSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist), r => UniversalPlay(r as Playlist, PlayType.Back));
+            PlaySong = new MainCommand(a => CanPlayMusic(a as Playlist), v => PlayMusic(v as Playlist));
+            PauseSong = new MainCommand(x => CanPauseSong(), q => SongPause(q as Playlist));
+            PlayNextSong = new MainCommand(q => CanPlayBackOrNextSong(q as Playlist), z => UniversalPlay(z as Playlist, PlayType.Next));
+            PlayBackSong = new MainCommand(z => CanPlayBackOrNextSong(z as Playlist), i => UniversalPlay(i as Playlist, PlayType.Back));
         }
 
-        public bool CanPlayMusic(Playlist _pathsSongs)
+        public bool CanPlayMusic(Playlist pathsSongs) 
         {
-            if (_pathsSongs != null || Song.IsPausing)
+            if (pathsSongs != null || song.IsPausing)
             {
-                if (!Song.IsPausing && string.IsNullOrWhiteSpace(_pathsSongs.SongsList.FirstOrDefault()))
+                if (!song.IsPausing && string.IsNullOrWhiteSpace(pathsSongs.SongsList.FirstOrDefault()))
                     return false;
-                if (new[] { _pathsSongs.SelectedSong, Song.SongPath }
-                   .Any(z => !string.IsNullOrWhiteSpace(z) && z.Split('.')[z.Split('.').Length - 1].ToLower() == "mp3"))
+                if (new[] { pathsSongs.SelectedSong, currentlySongPath }.Any(z => !string.IsNullOrWhiteSpace(z) && z.Split('.')[z.Split('.').Length - 1].ToLower() == "mp3"))
                     return true;
                 return false;
             }
             return false;
         }
 
-        public bool CanPauseSong() => Song != null ? Song.IsPlaying ? true : false : false;
-
-        public bool CanPlayBackOrNextSong(Playlist _pathsSongs) =>
-            _pathsSongs != null ? !string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong) ? Song != null ? true : false : false : false;
-
-        public void PlayMusic(Playlist _pathsSongs)
+        public void PlayMusic(Playlist pathsSongs)
         {
-            if ((!Song.IsPlaying && Song.IsPausing) && (new[] { Song.SongPath, _pathsSongs.SelectedSong }.Any(q => q == Song.SongPath)))
+            if ((!song.IsPlaying && song.IsPausing) && (new[] { currentlySongPath, pathsSongs.SelectedSong }.Any(q => q == song.SongPath)))
             {
                 Player.Play();
-                Song.IsPausing = false;
-                Song.IsPlaying = true;
+                song.IsPausing = false;
+                song.IsPlaying = true;
                 return;
             }
-            else if (Song.IsPlaying)
+            else if (song.IsPlaying)
                 Player.Pause();
-            PlayerHelper(_pathsSongs);
+            PlayerHelper(pathsSongs);
         }
 
-        public void SongPause()
+        public bool CanPauseSong() => song != null ? song.IsPlaying ? true : false : false;
+        public void SongPause(Playlist pathsSongs)
         {
+            currentlySongPath = song.SongPath;
             Player.Pause();
-            Song.IsPlaying = false;
-            Song.IsPausing = true;
+            song.IsPlaying = false;
+            song.IsPausing = true;
         }
 
-        public void UniversalPlay(Playlist _pathsSongs, PlayType _playType)
+        public bool CanPlayBackOrNextSong(Playlist pathsSongs) => pathsSongs != null ? !string.IsNullOrWhiteSpace(pathsSongs.SelectedSong) ? song != null ? true : false : false : false;
+        public void UniversalPlay(Playlist pathsSongs, PlayType playType)
         {
-            if (Song.IsPlaying)
+            if (song.IsPlaying)
             {
                 Player.Pause();
-                Song.IsPausing = false;
+                song.IsPausing = false;
             }
-            _pathsSongs.SelectedSong = GetNewSongPath(_pathsSongs.SongsList, _playType);
-            PlayerHelper(_pathsSongs);
+            pathsSongs.SelectedSong = GetNewSongPath(pathsSongs.SongsList, playType);
+            PlayerHelper(pathsSongs);
         }
 
         #region Helper Methods
-        private string GetNewSongPath(ObservableCollection<string> _songsList, PlayType _playType)
+        private string GetNewSongPath(ObservableCollection<string> songsList, PlayType playType)
         {
             int currentlyID = 0;
             string newSongPath = string.Empty;
-            var songsListWithIDs = _songsList.Select((x, i) => new { Index = i, Value = x });
-
-            foreach (var newIndex in songsListWithIDs.Where(v => v.Value == Song.SongPath).Select(b => b.Index))
+            var songsListWithIDs = songsList.Select((x, i) => new { Index = i, Value = x });
+            foreach (var newIndex in songsListWithIDs.Where(v => v.Value == song.SongPath).Select(b => b.Index))
                 currentlyID = newIndex;
-
-            foreach (var newSong in songsListWithIDs.Where(q => q.Index == (NewSongID(currentlyID, _songsList.Count, _playType))).Select(b => b.Value))
+            foreach (var newSong in songsListWithIDs.Where(q => q.Index == (NewSongID(currentlyID, songsList.Count, playType))).Select(b => b.Value))
                 newSongPath = newSong;
-
             return newSongPath;
         }
 
-        private int NewSongID(int _currentlyID, int _totalCount, PlayType _playType)
+        private int NewSongID(int currentlyID, int totalCount, PlayType playType)
         {
-            if (_playType == PlayType.Next)
-                return _currentlyID == _totalCount - 1 ? 0 : _currentlyID + 1;
-            return _currentlyID == 0 ? _totalCount - 1 : _currentlyID - 1;
+            if (playType == PlayType.Next)
+                return currentlyID == totalCount - 1 ? 0 : currentlyID + 1;
+            return currentlyID == 0 ? totalCount - 1 : currentlyID - 1;
         }
 
-        private void PlayerHelper(Playlist _pathsSongs)
+        private void PlayerHelper(Playlist pathsSongs)
         {
-            if (!string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong))
+            song = new Song(pathsSongs.SelectedSong) { IsPlaying = true };
+            counter.Song = song;
+            counter.PositionMax = song.MP3.TotalTime.TotalSeconds;
+            counter.CountTime((obj, e) =>
             {
-                Song = new Song(_pathsSongs.SelectedSong) { IsPlaying = true, Volume = Song.Volume };
-                Counter.Song = Song;
-                Counter.PositionMax = Song.MP3.TotalTime.TotalSeconds;
-                Counter.CountTime((obj, e) =>
+                if (counter.Song.MP3.CurrentTime == counter.Song.MP3.TotalTime && pathsSongs.SongsList.FirstOrDefault() != null)
                 {
-                    if (Counter.Song.MP3.CurrentTime == Counter.Song.MP3.TotalTime && _pathsSongs.SongsList.FirstOrDefault() != null)
-                    {
-                        _pathsSongs.SelectedSong = GetNewSongPath(_pathsSongs.SongsList, PlayType.Next);
-                        PlayMusic(_pathsSongs);
-                    }
-                    Counter.TimeText = string.Format("{0} {1}", Counter.Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"), Counter.Song.MP3.TotalTime.ToString().Split('.')[0]);
-                    if (Counter.Song.IsPlaying)
-                        Counter.PositionValue = Counter.Song.MP3.CurrentTime.TotalSeconds;
-                });
-                Counter.ChangePosition();
-                Song.SongName = Song.MP3.FileName.Split('\\')[Song.MP3.FileName.Split('\\').Length - 1];
-                Song.MP3.Volume = Song.Volume / 100;
-                Player.Init(Song.MP3);
-                Player.Play();
-            }
+                    pathsSongs.SelectedSong = GetNewSongPath(pathsSongs.SongsList, PlayType.Next);
+                    PlayMusic(pathsSongs);
+                }
+                counter.TimeText = string.Format("{0} {1}", counter.Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"), counter.Song.MP3.TotalTime.ToString().Split('.')[0]);
+                if (counter.Song.IsPlaying)
+                    counter.PositionValue = counter.Song.MP3.CurrentTime.TotalSeconds;
+            });
+            counter.ChangePosition();
+            SongName = song.MP3.FileName.Split('\\')[song.MP3.FileName.Split('\\').Length - 1];
+            song.MP3.Volume = Volume / 100;
+            Player.Init(song.MP3);
+            Player.Play();
         }
         #endregion
     }

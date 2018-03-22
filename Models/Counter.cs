@@ -1,67 +1,50 @@
-﻿using MP3Player.ViewModels;
-using System;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
-
 namespace MP3Player.Models
 {
-    public class Counter : BaseViewModel
+    public class Counter : INotifyPropertyChanged
     {
-        private Timer timer;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void PropertyChangedMethod(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+
         private Song song;
         private double positionMax;
         private string timeText;
         private double positionValue;
 
-        public Timer Timer
-        {
-            get => timer;
-            set => timer = value;
-        }
-
+        public Timer Timer { get; set; }
         public Song Song
         {
-            get => song;
-            set
-            {
-                song = value;
-                positionValue = 0d;
-            }
+            get { return song; }
+            set { song = value; positionValue = 0d; }
         }
-
         public double PositionMax
         {
-            get => positionMax; 
-            set
-            {
-                positionMax = value;
-                OnPropertyChanged("PositionMax");
-            }
+            get { return positionMax; }
+            set { positionMax = value; PropertyChangedMethod("PositionMax"); }
         }
-
         public string TimeText
         {
-            get => timeText; 
-            set
-            {
-                timeText = value;
-                OnPropertyChanged("TimeText");
-            }
+            get { return timeText; }
+            set { timeText = value; PropertyChangedMethod("TimeText"); }
         }
+       
         public double PositionValue
         {
-            get => positionValue;
+            get { return positionValue; }
             set
             {
                 positionValue = value;
                 ChangePosition();
-                OnPropertyChanged("PositionValue");
+                PropertyChangedMethod("PositionValue");
             }
         }
 
         public Counter()
         {
-            timer = new Timer();
-            song = new Song(null);
+            Timer = new Timer();
+            Song = new Song(null);
         }
 
         public void ChangePosition() => song.MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
