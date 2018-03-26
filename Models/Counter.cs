@@ -1,35 +1,36 @@
-﻿using System;
-using System.ComponentModel;
+﻿using MP3Player.ViewModels;
+using System;
 using System.Windows.Forms;
+
 namespace MP3Player.Models
 {
-    public class Counter : INotifyPropertyChanged
+    public class Counter : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void PropertyChangedMethod(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
-
         private Song song;
         private double positionMax;
         private string timeText;
         private double positionValue;
 
         public Timer Timer { get; set; }
+
         public Song Song
         {
             get { return song; }
             set { song = value; positionValue = 0d; }
         }
+        
         public double PositionMax
         {
-            get { return positionMax; }
-            set { positionMax = value; PropertyChangedMethod("PositionMax"); }
+            get { return positionMax; } 
+            set { positionMax = value; OnPropertyChanged("PositionMax"); }
         }
+
         public string TimeText
         {
-            get { return timeText; }
-            set { timeText = value; PropertyChangedMethod("TimeText"); }
+            get { return timeText; } 
+            set { timeText = value; OnPropertyChanged("TimeText"); }
         }
-       
+        
         public double PositionValue
         {
             get { return positionValue; }
@@ -37,7 +38,7 @@ namespace MP3Player.Models
             {
                 positionValue = value;
                 ChangePosition();
-                PropertyChangedMethod("PositionValue");
+                OnPropertyChanged("PositionValue");
             }
         }
 

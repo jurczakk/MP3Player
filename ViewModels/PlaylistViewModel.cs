@@ -14,20 +14,21 @@ namespace MP3Player.ViewModels
         public PlaylistViewModel()
         {
             playlist = new Playlist();
-            GetSongsPaths = new MainCommand(x => CanOpenFileDialog(), x => OpenFileDialog());
-            DeleteSongFromPlaylist = new MainCommand(q => CanDeleteOrClear(), q => DeleteFile());
-            ClearSongsPaths = new MainCommand(q => CanDeleteOrClear(), t => ClearPlaylist());
+            GetSongsPaths = new MainCommand(x => true, x => OpenFileDialog());
+            DeleteSongFromPlaylist = new MainCommand(x => CanDeleteOrClear(), x => DeleteFile());
+            ClearSongsPaths = new MainCommand(x => CanDeleteOrClear(), x => ClearPlaylist());
         }
 
         public ICommand GetSongsPaths { get; private set; }
         public ICommand DeleteSongFromPlaylist { get; private set; }
         public ICommand ClearSongsPaths { get; private set; }
 
-        public bool CanOpenFileDialog() => true;
-        public bool CanDeleteOrClear() => playlist != null ? playlist.SongsList != null ? true : false : false;
+        public bool CanDeleteOrClear() => Playlist != null ? Playlist.SongsList != null ? true : false : false;
+
         public void OpenFileDialog()
         {
             var fileDialog = new OpenFileDialog { Multiselect = true };
+
             if (fileDialog.ShowDialog() != null)
                 foreach (var fileName in fileDialog.FileNames.Where(u => u.Split('.').Last().ToLower() == "mp3"))
                     Playlist.SongsList.Add(fileName);
