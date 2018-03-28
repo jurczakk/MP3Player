@@ -100,24 +100,6 @@ namespace MP3Player.ViewModels
             var currentlyID = songsListWithIDs.Where(x => x.Value == Song.SongPath).First().Index;
             var ID = NewSongID(currentlyID, _songsList.Count, _playType);
             return songsListWithIDs.Where(x => x.Index == ID).First().Value;
-
-            #region old
-            //int currentlyID = 0;
-            //string newSongPath = string.Empty;
-
-            //string newSongPath = songsListWithIDs.Where(x => x.Index == ID).Select(x => x.Value).First();
-            //return newSongPath;
-
-
-
-
-
-            //foreach (var newIndex in songsListWithIDs.Where(v => v.Value == Song.SongPath).Select(b => b.Index))
-            //    currentlyID = newIndex;
-
-            //foreach (var newSong in songsListWithIDs.Where(q => q.Index == (NewSongID(currentlyID, _songsList.Count, _playType))).Select(b => b.Value))
-            //    newSongPath = newSong;
-            #endregion
         }
 
         private int NewSongID(int _currentlyID, int _totalCount, PlayType _playType)
