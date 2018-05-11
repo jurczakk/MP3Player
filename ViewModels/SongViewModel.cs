@@ -10,10 +10,12 @@ namespace MP3Player.ViewModels
 {
     public class SongViewModel : BaseViewModel
     {
+        //Fields
         private WaveOut player;
         private Song song;
         private Counter counter;
 
+        //Properties
         public WaveOut Player => player;
         public Song Song
         {
@@ -41,26 +43,42 @@ namespace MP3Player.ViewModels
             PlayNextSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist), r => UniversalPlay(r as Playlist, PlayType.Next));
             PlayBackSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist), r => UniversalPlay(r as Playlist, PlayType.Back));
         }
-
+        /// <summary>
+        /// Check if can play song
+        /// if currently song isPausing or our playlist is not null
+        /// if selected song does not null then we can PlayMusic
+        /// </summary>
+        /// <param name="_pathsSongs"></param>
+        /// <returns></returns>
         public bool CanPlayMusic(Playlist _pathsSongs)
         {
-            if (_pathsSongs != null || Song.IsPausing)
+            if (_pathsSongs!=null || Song.IsPausing && new[] { _pathsSongs.SelectedSong, Song.SongPath }.Any(r => !string.IsNullOrWhiteSpace(r)))
             {
-                if (!Song.IsPausing && string.IsNullOrWhiteSpace(_pathsSongs.SongsList.FirstOrDefault()))
-                    return false;
-                if (new[] { _pathsSongs.SelectedSong, Song.SongPath }
-                   .Any(z => !string.IsNullOrWhiteSpace(z) && z.Split('.')[z.Split('.').Length - 1].ToLower() == "mp3"))
-                    return true;
-                return false;
+                return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// if Song is not null, and isPlaying boolean is set as true, we can Pause song
+        /// </summary>
+        /// <returns></returns>
         public bool CanPauseSong() => Song != null ? Song.IsPlaying ? true : false : false;
 
+
+        /// <summary>
+        /// Check if we can play earlier or Next song
+        /// </summary>
+        /// <param name="_pathsSongs"></param>
+        /// <returns></returns>
         public bool CanPlayBackOrNextSong(Playlist _pathsSongs) =>
             _pathsSongs != null ? !string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong) ? Song != null ? true : false : false : false;
 
+
+        /// <summary>
+        /// We're using this method to play selected song by click on button
+        /// </summary>
+        /// <param name="_pathsSongs"></param>
         public void PlayMusic(Playlist _pathsSongs)
         {
             if ((!Song.IsPlaying && Song.IsPausing) && (new[] { Song.SongPath, _pathsSongs.SelectedSong }.Any(q => q == Song.SongPath)))
@@ -71,10 +89,14 @@ namespace MP3Player.ViewModels
                 return;
             }
             else if (Song.IsPlaying)
+            {
                 Player.Pause();
+            }
             PlayerHelper(_pathsSongs);
         }
-
+        /// <summary>
+        /// Just pause the song
+        /// </summary>
         public void SongPause()
         {
             Player.Pause();
@@ -82,6 +104,11 @@ namespace MP3Player.ViewModels
             Song.IsPausing = true;
         }
 
+        /// <summary>
+        /// We're using this method to play earlier/next song, by click on button
+        /// </summary>
+        /// <param name="_pathsSongs"></param>
+        /// <param name="_playType"></param>
         public void UniversalPlay(Playlist _pathsSongs, PlayType _playType)
         {
             if (Song.IsPlaying)
@@ -94,32 +121,29 @@ namespace MP3Player.ViewModels
         }
 
         #region Helper Methods
+        /// <summary>
+        /// Create songsList with IDs and get songPath to the next song,
+        /// if we choose PlayType NEXT we will play next song
+        /// else if we choose PlayType BACK we will play earlier song
+        /// </summary>
+        /// <param name="_songsList"></param>
+        /// <param name="_playType"></param>
+        /// <returns></returns>
         private string GetNewSongPath(ObservableCollection<string> _songsList, PlayType _playType)
         {
             var songsListWithIDs = _songsList.Select((x, i) => new { Index = i, Value = x });
-            var currentlyID = songsListWithIDs.Where(x => x.Value == Song.SongPath).First().Index;
+            var currentlyID = songsListWithIDs.First(x => x.Value == Song.SongPath).Index;
             var ID = NewSongID(currentlyID, _songsList.Count, _playType);
             return songsListWithIDs.Where(x => x.Index == ID).First().Value;
-
-            #region old
-            //int currentlyID = 0;
-            //string newSongPath = string.Empty;
-
-            //string newSongPath = songsListWithIDs.Where(x => x.Index == ID).Select(x => x.Value).First();
-            //return newSongPath;
-
-
-
-
-
-            //foreach (var newIndex in songsListWithIDs.Where(v => v.Value == Song.SongPath).Select(b => b.Index))
-            //    currentlyID = newIndex;
-
-            //foreach (var newSong in songsListWithIDs.Where(q => q.Index == (NewSongID(currentlyID, _songsList.Count, _playType))).Select(b => b.Value))
-            //    newSongPath = newSong;
-            #endregion
         }
 
+        /// <summary>
+        /// Helper method to get new ID (which help us to get new SongPath in GetNewSongPath() method)
+        /// </summary>
+        /// <param name="_currentlyID"></param>
+        /// <param name="_totalCount"></param>
+        /// <param name="_playType"></param>
+        /// <returns></returns>
         private int NewSongID(int _currentlyID, int _totalCount, PlayType _playType)
         {
             if (_playType == PlayType.Next)
@@ -127,6 +151,16 @@ namespace MP3Player.ViewModels
             return _currentlyID == 0 ? _totalCount - 1 : _currentlyID - 1;
         }
 
+
+        /// <summary>
+        /// Main logic of playin' music
+        /// First of all we check if our Selected Song Path is not null 
+        /// then we will create new instance of Song, and use our Counter Model
+        /// And Use CountTime method, to calculate a time of our song, 
+        /// and change its position on position slider.
+        /// set volume etc.
+        /// </summary>
+        /// <param name="_pathsSongs"></param>
         private void PlayerHelper(Playlist _pathsSongs)
         {
             if (!string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong))
@@ -143,7 +177,10 @@ namespace MP3Player.ViewModels
                     }
                     Counter.TimeText = string.Format("{0} {1}", Counter.Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"), Counter.Song.MP3.TotalTime.ToString().Split('.')[0]);
                     if (Counter.Song.IsPlaying)
+                    {
                         Counter.PositionValue = Counter.Song.MP3.CurrentTime.TotalSeconds;
+                    }
+                        
                 });
                 Counter.ChangePosition();
                 Song.SongName = Song.MP3.FileName.Split('\\')[Song.MP3.FileName.Split('\\').Length - 1];

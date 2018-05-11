@@ -2,6 +2,9 @@
 
 namespace MP3Player.Models
 {
+    /// <summary>
+    /// Song model
+    /// </summary>
     public class Song
     {
         private float volume;
@@ -18,15 +21,23 @@ namespace MP3Player.Models
             set
             {
                 volume = float.Parse(value.ToString("0"));
-                if (MP3 != null)
-                    MP3.Volume = volume/100;
+                if (MP3 != null) 
+                {                
+                    MP3.Volume = volume / 100;
+                }
             }
         }
-
+        /// <summary>
+        /// //if Path is not null, 
+        /// then we wil create a new instance of AudiofileReader
+        /// 
+        /// SongName that's last part of splitting Path string after '/'
+        /// </summary>
+        /// <param name="_path"></param>
         public Song(string _path)
         {
             SongPath = _path;
-            if (!string.IsNullOrWhiteSpace(_path))
+            if (!string.IsNullOrWhiteSpace(_path)) 
             {
                 MP3 = new AudioFileReader(_path) { Volume = Volume };
                 SongName = _path.Split('\\')[_path.Split('\\').Length - 1];

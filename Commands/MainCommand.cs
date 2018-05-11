@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace MP3Player.Commands
 {
+    /// <summary>
+    /// Simple ICommand implementation.
+    /// </summary>
     class MainCommand : ICommand
     {
         private Predicate<object> canExecute;

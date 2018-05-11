@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace MP3Player.Models
 {
+    /// <summary>
+    /// Counter class
+    /// </summary>
     public class Counter : BaseViewModel
     {
         private Song song;
@@ -37,7 +40,7 @@ namespace MP3Player.Models
             set
             {
                 positionValue = value;
-                ChangePosition();
+                ChangePosition(); 
                 OnPropertyChanged("PositionValue");
             }
         }
@@ -48,7 +51,14 @@ namespace MP3Player.Models
             Song = new Song(null);
         }
 
-        public void ChangePosition() => song.MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
+        public void ChangePosition() => 
+            song.MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
+
+
+        /// <summary>
+        /// We count currently song time, we will use that method in the SongViewModel
+        /// </summary>
+        /// <param name="e"></param>
         public void CountTime(EventHandler e)
         {
             Timer.Tick += new EventHandler(e);

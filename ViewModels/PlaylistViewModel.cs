@@ -23,8 +23,11 @@ namespace MP3Player.ViewModels
         public ICommand DeleteSongFromPlaylist { get; private set; }
         public ICommand ClearSongsPaths { get; private set; }
 
-        public bool CanDeleteOrClear() => Playlist != null ? Playlist.SongsList != null ? true : false : false;
-
+        /// <summary>
+        /// We're opening a window inside which we can add the songs.
+        /// After that we're foreaching over our songs, and get only that
+        /// Which end with 'mp3' and add them to the playlist
+        /// </summary>
         public void OpenFileDialog()
         {
             var fileDialog = new OpenFileDialog { Multiselect = true };
@@ -33,7 +36,17 @@ namespace MP3Player.ViewModels
                 foreach (var fileName in fileDialog.FileNames.Where(u => u.Split('.').Last().ToLower() == "mp3"))
                     Playlist.SongsList.Add(fileName);
         }
-        public void DeleteFile() => Playlist.SongsList.Remove(Playlist.SelectedSong);
-        public void ClearPlaylist() => Playlist.SongsList.ToList().All(y => Playlist.SongsList.Remove(y));
+        
+        //Check if our playlist if not null, then we can remove that.
+        public bool CanDeleteOrClear() =>
+            Playlist != null ? Playlist.SongsList != null ? true : false : false;
+        
+        //Delete single, selected song
+        public void DeleteFile() => 
+            Playlist.SongsList.Remove(Playlist.SelectedSong);
+
+        //Delete everything from our playlist.
+        public void ClearPlaylist() => 
+            Playlist.SongsList.ToList().All(y => Playlist.SongsList.Remove(y));
     }
 }
