@@ -134,7 +134,7 @@ namespace MP3Player.ViewModels
             var songsListWithIDs = _songsList.Select((x, i) => new { Index = i, Value = x });
             var currentlyID = songsListWithIDs.First(x => x.Value == Song.SongPath).Index;
             var ID = NewSongID(currentlyID, _songsList.Count, _playType);
-            return songsListWithIDs.Where(x => x.Index == ID).First().Value;
+            return songsListWithIDs.First(x => x.Index == ID).Value;
         }
 
         /// <summary>
