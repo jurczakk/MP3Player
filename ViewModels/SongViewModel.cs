@@ -40,8 +40,10 @@ namespace MP3Player.ViewModels
             player = new WaveOut();
             PlaySong = new MainCommand(r => CanPlayMusic(r as Playlist), r => PlayMusic(r as Playlist));
             PauseSong = new MainCommand(r => CanPauseSong(), r => SongPause());
-            PlayNextSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist), r => UniversalPlay(r as Playlist, PlayType.Next));
-            PlayBackSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist), r => UniversalPlay(r as Playlist, PlayType.Back));
+            PlayNextSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist),
+                                           r => UniversalPlay(r as Playlist, PlayType.Next));
+            PlayBackSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist),
+                                           r => UniversalPlay(r as Playlist, PlayType.Back));
         }
         /// <summary>
         /// Check if can play song
@@ -52,7 +54,8 @@ namespace MP3Player.ViewModels
         /// <returns></returns>
         public bool CanPlayMusic(Playlist _pathsSongs)
         {
-            if (_pathsSongs!=null || Song.IsPausing && new[] { _pathsSongs.SelectedSong, Song.SongPath }.Any(r => !string.IsNullOrWhiteSpace(r)))
+            if (_pathsSongs!=null || Song.IsPausing && 
+                new[] { _pathsSongs.SelectedSong, Song.SongPath }.Any(r => !string.IsNullOrWhiteSpace(r)))
             {
                 return true;
             }
@@ -72,7 +75,13 @@ namespace MP3Player.ViewModels
         /// <param name="_pathsSongs"></param>
         /// <returns></returns>
         public bool CanPlayBackOrNextSong(Playlist _pathsSongs) =>
-            _pathsSongs != null ? !string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong) ? Song != null ? true : false : false : false;
+            _pathsSongs != null 
+                ? !string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong) 
+                    ? Song != null 
+                        ? true 
+                        : false
+                : false
+            : false;
 
 
         /// <summary>
@@ -81,7 +90,8 @@ namespace MP3Player.ViewModels
         /// <param name="_pathsSongs"></param>
         public void PlayMusic(Playlist _pathsSongs)
         {
-            if ((!Song.IsPlaying && Song.IsPausing) && (new[] { Song.SongPath, _pathsSongs.SelectedSong }.Any(q => q == Song.SongPath)))
+            if ((!Song.IsPlaying && Song.IsPausing) && 
+                (new[] { Song.SongPath, _pathsSongs.SelectedSong }.Any(q => q == Song.SongPath)))
             {
                 Player.Play();
                 Song.IsPausing = false;
@@ -175,12 +185,15 @@ namespace MP3Player.ViewModels
                         _pathsSongs.SelectedSong = GetNewSongPath(_pathsSongs.SongsList, PlayType.Next);
                         PlayMusic(_pathsSongs);
                     }
-                    Counter.TimeText = string.Format("{0} {1}", Counter.Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"), Counter.Song.MP3.TotalTime.ToString().Split('.')[0]);
+                    
+                    Counter.TimeText = string.Format("{0} {1}", 
+                        Counter.Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"),
+                        Counter.Song.MP3.TotalTime.ToString().Split('.')[0]);
+                        
                     if (Counter.Song.IsPlaying)
                     {
                         Counter.PositionValue = Counter.Song.MP3.CurrentTime.TotalSeconds;
-                    }
-                        
+                    }    
                 });
                 Counter.ChangePosition();
                 Song.SongName = Song.MP3.FileName.Split('\\')[Song.MP3.FileName.Split('\\').Length - 1];
