@@ -180,7 +180,8 @@ namespace MP3Player.ViewModels
                 Counter.PositionMax = Song.MP3.TotalTime.TotalSeconds;
                 Counter.CountTime((obj, e) =>
                 {
-                    if (Counter.Song.MP3.CurrentTime == Counter.Song.MP3.TotalTime && _pathsSongs.SongsList.FirstOrDefault() != null)
+                    if (Counter.Song.MP3.CurrentTime == Counter.Song.MP3.TotalTime && 
+                        _pathsSongs.SongsList.FirstOrDefault() != null)
                     {
                         _pathsSongs.SelectedSong = GetNewSongPath(_pathsSongs.SongsList, PlayType.Next);
                         PlayMusic(_pathsSongs);
