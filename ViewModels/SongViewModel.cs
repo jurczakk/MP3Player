@@ -66,7 +66,19 @@ namespace MP3Player.ViewModels
         /// if Song is not null, and isPlaying boolean is set as true, we can Pause song
         /// </summary>
         /// <returns></returns>
-        public bool CanPauseSong() => Song != null ? Song.IsPlaying ? true : false : false;
+        //public bool CanPauseSong() => Song != null ? Song.IsPlaying ? true : false : false;
+        public bool CanPauseSong() 
+        {
+            if (Song != null)
+            {
+                if (Song.IsPlaying)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
 
 
         /// <summary>
@@ -74,14 +86,38 @@ namespace MP3Player.ViewModels
         /// </summary>
         /// <param name="_pathsSongs"></param>
         /// <returns></returns>
-        public bool CanPlayBackOrNextSong(Playlist _pathsSongs) =>
-            _pathsSongs != null 
-                ? !string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong) 
-                    ? Song != null 
-                        ? true 
-                        : false
-                : false
-            : false;
+        public bool CanPlayBackOrNextSong(Playlist _pathsSongs) 
+        {
+            if (_pathsSongs != null)
+            {
+                if (!string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong) 
+                {
+                    if (Song != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+            //_pathsSongs != null 
+            //    ? !string.IsNullOrWhiteSpace(_pathsSongs.SelectedSong) 
+            //        ? Song != null 
+            //            ? true 
+            //            : false
+            //    : false
+            // : false;
 
 
         /// <summary>
