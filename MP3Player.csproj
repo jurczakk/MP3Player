@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Commands\MainCommand.cs" />
     <Compile Include="Enums\EnumPlayType.cs" />
+    <Compile Include="Extensions\SongExtension.cs" />
     <Compile Include="Models\Counter.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\Song.cs" />
