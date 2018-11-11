@@ -8,10 +8,20 @@ namespace MP3Player.Extensions
     public static class SongExtension
     {
         /// <summary>
+<<<<<<< HEAD
         /// Create Songs List with IDs and get song's path to the next song,
         /// if we choose PlayType.NEXT then we will play next song
         /// otherwise we choose PlayType.BACK we will play earlier song
         /// </summary>
+=======
+        /// Create songsList with IDs and get songPath to the next song,
+        /// if we choose PlayType NEXT we will play next song
+        /// else if we choose PlayType BACK we will play earlier song
+        /// </summary>
+        /// <param name="_songsList"></param>
+        /// <param name="_playType"></param>
+        /// <returns></returns>
+>>>>>>> origin/master
         public static string GetNewSongPath(ObservableCollection<string> _songsList, PlayType _playType, Song _song)
         {
             var songsListWithIDs = _songsList.Select((x, i) => new { Index = i, Value = x });
@@ -23,6 +33,13 @@ namespace MP3Player.Extensions
         /// <summary>
         /// Helper method to get new ID (which help us to get new SongPath in GetNewSongPath() method)
         /// </summary>
+<<<<<<< HEAD
+=======
+        /// <param name="_currentlyID"></param>
+        /// <param name="_totalCount"></param>
+        /// <param name="_playType"></param>
+        /// <returns></returns>
+>>>>>>> origin/master
         public static int NewSongID(int _currentlyID, int _totalCount, PlayType _playType)
         {
             if (_playType == PlayType.Next)
