@@ -1,0 +1,151 @@
+[33mcommit f361a4baee42081665f204db849857aa9cb66a79[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Mon Nov 12 22:18:22 2018 +0100
+
+    Delete SongExtension.cs
+
+[33mcommit 0236bf5061be9b5b2db23e048c9506d80ddc14b0[m[33m ([m[1;32mupstream[m[33m)[m
+Merge: b4264af 541550a
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Nov 11 20:45:51 2018 +0100
+
+    small changes
+
+[33mcommit b4264af57f73b4ce997c397355e204c88ebf0815[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Nov 11 20:53:35 2018 +0100
+
+    small changes
+
+[33mcommit 541550ae00a7e2d10caff5e49dfbd0bda75877ae[m
+Author: qwer <kjurczak10@gmail.com>
+Date:   Sun Jul 22 17:13:32 2018 +0200
+
+    a little changes
+
+[33mcommit 5cc784e1d6be0977150981b8ac7e4264a2688473[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sat Jul 21 19:26:31 2018 +0200
+
+    Update SongViewModel.cs
+
+[33mcommit 6a65097e009a5564e3ac48b6f13a6bdfa6a98aaf[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sat Jul 7 18:27:46 2018 +0200
+
+    small cosmetic change
+
+[33mcommit e215432ba39b65757e8a4b4c8ee3f4d2e825c4ef[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sat May 26 16:15:19 2018 +0200
+
+    Update SongViewModel.cs
+
+[33mcommit f31304c2f336cea8eeda5431cd630ec4182bd604[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun May 13 14:40:32 2018 +0200
+
+    Update SongViewModel.cs
+
+[33mcommit 24353d1ab5e1e2861212815bc35ee1271c028cef[m
+Merge: e1b4aac 18088b4
+Author: qwer <kjurczak10@gmail.com>
+Date:   Fri May 11 23:52:07 2018 +0200
+
+    little update
+
+[33mcommit e1b4aacb1b3938cba2064de041857e00ec66665c[m
+Author: qwer <kjurczak10@gmail.com>
+Date:   Fri May 11 23:49:35 2018 +0200
+
+    little update
+
+[33mcommit 18088b425a3006c010fb6c312f283cb3cf30fdcd[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Wed Mar 28 02:24:03 2018 +0200
+
+    Update SongViewModel.cs
+
+[33mcommit 13c8da939bd46de5bcac3581d87693021df6b763[m
+Author: qwer <kjurczak10@gmail.com>
+Date:   Mon Mar 26 11:46:38 2018 +0200
+
+    stable v1
+
+[33mcommit c0c20f18c1b0e1e2e5698ae21241222a01446754[m
+Author: qwer <kjurczak10@gmail.com>
+Date:   Thu Mar 22 12:43:59 2018 +0100
+
+    update
+
+[33mcommit 3fcc60084fdfa2e198b8ab448cc347be0d46fd21[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Thu Mar 8 10:04:47 2018 +0100
+
+    fixes
+
+[33mcommit 2d80e662e109d8f47073c9527b782a30144811c9[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:41:39 2018 +0100
+
+    Update MP3Player.xaml
+
+[33mcommit 43d3add1075ce51715e9108516796f7b09cb3f11[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:40:11 2018 +0100
+
+    Update SongViewModel.cs
+
+[33mcommit 46c04d893144fca826f0c3d82c460c5267a253cb[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:38:11 2018 +0100
+
+    Update SongViewModel.cs
+
+[33mcommit 5626154defa51b4a4d8b42813dfd6455a9caaa7a[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:33:41 2018 +0100
+
+    Update PlaylistViewModel.cs
+
+[33mcommit 5a3689bf241011c6cf1dfc6db6fd95ae83264f77[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:32:45 2018 +0100
+
+    Update MainViewModel.cs
+
+[33mcommit 75fc08dcb2c4d6291a6fcf928305e721268a58cb[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:30:51 2018 +0100
+
+    Update Playlist.cs
+
+[33mcommit 8a05fd76e31a260a4151b0c80926759f81fa966a[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:26:49 2018 +0100
+
+    Update Counter.cs
+
+[33mcommit c0427d79efac889e993950f2e642a1344f9adffc[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:26:11 2018 +0100
+
+    Update Counter.cs
+
+[33mcommit 2126012fb83ce595abb765177a2c9879a8378e0b[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:16:26 2018 +0100
+
+    Update Playlist.cs
+
+[33mcommit fcd9749f5b696c238d95c3155cb7c6e48f4e9b6a[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:15:59 2018 +0100
+
+    Update Counter.cs
+
+[33mcommit 6f3de21e9b5408c2d4a9a166c06589a9ed3d5ec3[m
+Author: jk4774 <kjurczak10@gmail.com>
+Date:   Sun Feb 18 19:10:28 2018 +0100
+
+    First Commit
