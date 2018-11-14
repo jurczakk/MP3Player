@@ -1,4 +1,4 @@
-﻿using MP3Player.ViewModels;
+using MP3Player.ViewModels;
 using System;
 using System.Windows.Forms;
 
@@ -53,10 +53,6 @@ namespace MP3Player.Models
             song.MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
         }
 
-        /// <summary>
-        /// We count currently song time, 
-        /// we will use that method in the SongViewModel
-        /// </summary>
         public void CountTime(EventHandler e)
         {
             Timer.Tick += new EventHandler(e);

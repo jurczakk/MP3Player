@@ -3,10 +3,7 @@ using System.Windows.Input;
 
 namespace MP3Player.Commands
 {
-    /// <summary>
-    /// ICommand implementations
-    /// </summary>
-    class MainCommand : ICommand
+    public class MainCommand : ICommand
     {
         private Predicate<object> canExecute;
         private Action<object> execute;

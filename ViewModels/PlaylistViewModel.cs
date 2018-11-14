@@ -1,4 +1,4 @@
-﻿using MP3Player.Commands;
+using MP3Player.Commands;
 using MP3Player.Models;
 using System.Windows.Input;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace MP3Player.ViewModels
     public class PlaylistViewModel
     {
         private Playlist playlist;
-        public Playlist Playlist => playlist;
+        public Playlist Playlist { get { return playlist; } }
 
         public PlaylistViewModel()
         {
@@ -23,11 +23,6 @@ namespace MP3Player.ViewModels
         public ICommand DeleteSongFromPlaylist { get; private set; }
         public ICommand ClearSongsPaths { get; private set; }
 
-        /// <summary>
-        /// We're opening a window inside which we can add the songs.
-        /// After that we're foreaching over our songs, and get only that
-        /// Which end with '.mp3' and add those songs to the playlist
-        /// </summary>
         public void OpenFileDialog()
         {
             var fileDialog = new OpenFileDialog { Multiselect = true };
@@ -36,7 +31,6 @@ namespace MP3Player.ViewModels
                     Playlist.SongsList.Add(fileName);
         }
 
-        //Check if our playlist is not null, then we can remove that.
         public bool CanDeleteOrClear()
         {
             if (Playlist == null)
