@@ -3,17 +3,18 @@ using MP3Player.Models;
 using System.Windows.Input;
 using System.Linq;
 using System.Windows.Forms;
+using System.IO;
+using System;
 
 namespace MP3Player.ViewModels
 {
     public class PlaylistViewModel
     {
-        private Playlist playlist;
-        public Playlist Playlist { get { return playlist; } }
+        public Playlist Playlist { get; }
 
         public PlaylistViewModel()
         {
-            playlist = new Playlist();
+            Playlist = new Playlist();
             GetSongsPaths = new MainCommand(x => true, x => OpenFileDialog());
             DeleteSongFromPlaylist = new MainCommand(x => CanDeleteOrClear(), x => DeleteFile());
             ClearSongsPaths = new MainCommand(x => CanDeleteOrClear(), x => ClearPlaylist());
@@ -26,28 +27,23 @@ namespace MP3Player.ViewModels
         public void OpenFileDialog()
         {
             var fileDialog = new OpenFileDialog { Multiselect = true };
-            if (fileDialog.ShowDialog() != null)    
-                foreach (var fileName in fileDialog.FileNames.Where(u => System.IO.Path.GetExtension(u).ToLower() == ".mp3"))
-                    Playlist.SongsList.Add(fileName);
+            if (fileDialog.ShowDialog() != null) 
+            {
+                var fileNames = fileDialog.FileNames.Where(x => Path.GetExtension(x).Equals(".mp3", StringComparison.InvariantCultureIgnoreCase));
+                foreach (var filename in fileNames)
+                {
+                    Playlist.SongsList.Add(filename);
+                }
+            }
         }
 
-        public bool CanDeleteOrClear()
-        {
-            if (Playlist == null)
-                return false;
-            if (Playlist.SongsList == null)
-                return false;
-            return true;
-        }
+        public bool CanDeleteOrClear() => 
+            Playlist?.SongsList == null ? false : true;
 
-        public void DeleteFile()
-        {
+        public void DeleteFile() =>
             Playlist.SongsList.Remove(Playlist.SelectedSong);
-        }
 
-        public void ClearPlaylist()
-        {
-            Playlist.SongsList.ToList().All(y => Playlist.SongsList.Remove(y));
-        }
+        public void ClearPlaylist() =>
+            Playlist.SongsList.ToList().All(x => Playlist.SongsList.Remove(x));
     }
 }

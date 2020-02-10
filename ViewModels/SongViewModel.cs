@@ -46,8 +46,8 @@ namespace MP3Player.ViewModels
 
         public bool CanPlayMusic(Playlist _pathsSongs)
         {
-            if (_pathsSongs != null || Song.IsPausing &&
-                new[] { _pathsSongs.SelectedSong, Song.Path }.Any(r => !string.IsNullOrWhiteSpace(r)))
+            if (_pathsSongs != null || 
+                Song.IsPausing && new[] { _pathsSongs.SelectedSong, Song.Path }.Any(r => !string.IsNullOrWhiteSpace(r)))
             {
                 return true;
             }
@@ -119,8 +119,7 @@ namespace MP3Player.ViewModels
                 Counter.PositionMax = Song.MP3.TotalTime.TotalSeconds;
                 Counter.CountTime((obj, e) =>
                 {
-                    if (Counter.Song.MP3.CurrentTime == Counter.Song.MP3.TotalTime &&
-                        _pathsSongs.SongsList.FirstOrDefault() != null)
+                    if (Counter.Song.MP3.CurrentTime == Counter.Song.MP3.TotalTime && _pathsSongs.SongsList.FirstOrDefault() != null)
                     {
                         _pathsSongs.SelectedSong = GetNewSongPath(_pathsSongs.SongsList, PlayType.Next, Song);
                         PlayMusic(_pathsSongs);
@@ -132,8 +131,8 @@ namespace MP3Player.ViewModels
 
                     if (Counter.Song.IsPlaying)
                         Counter.PositionValue = Counter.Song.MP3.CurrentTime.TotalSeconds;
-
                 });
+
                 Counter.ChangePosition();
                 Song.Name = System.IO.Path.GetFileName(Song.MP3.FileName);
                 Song.MP3.Volume = Song.Volume / 100;
@@ -147,8 +146,10 @@ namespace MP3Player.ViewModels
             var songsListWithIDs = _songsList.Select((x, i) => new { Index = i, Value = x });
             var currentlyID = songsListWithIDs.First(x => x.Value == _song.Path).Index;
             var ID = currentlyID == 0 ? _songsList.Count - 1 : currentlyID - 1;
+
             if (_playType == PlayType.Next)
                 ID = currentlyID == _songsList.Count - 1 ? 0 : currentlyID + 1;
+
             return songsListWithIDs.First(x => x.Index == ID).Value;
         }
     }

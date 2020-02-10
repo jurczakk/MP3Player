@@ -5,8 +5,8 @@ namespace MP3Player.Commands
 {
     public class MainCommand : ICommand
     {
-        private Predicate<object> canExecute;
-        private Action<object> execute;
+        private readonly Predicate<object> canExecute;
+        private readonly Action<object> execute;
 
         public MainCommand(Predicate<object> _canExecute, Action<object> _execute)
         {
@@ -20,14 +20,10 @@ namespace MP3Player.Commands
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return canExecute(parameter);
-        }
+        public bool CanExecute(object parameter) =>
+            canExecute(parameter);
 
-        public void Execute(object parameter)
-        {
+        public void Execute(object parameter) =>
             execute(parameter);
-        }
     }
 }

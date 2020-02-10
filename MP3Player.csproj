@@ -68,7 +68,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\MainCommand.cs" />
-    <Compile Include="Enums\EnumPlayType.cs" />
+    <Compile Include="Enums\PlayType.cs" />
     <Compile Include="Views\MP3Player.xaml.cs">
       <DependentUpon>MP3Player.xaml</DependentUpon>
     </Compile>

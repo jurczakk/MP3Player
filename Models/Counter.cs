@@ -48,10 +48,8 @@ namespace MP3Player.Models
             Song = new Song(null);
         }
 
-        public void ChangePosition()
-        {
+        public void ChangePosition() =>
             song.MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
-        }
 
         public void CountTime(EventHandler e)
         {
