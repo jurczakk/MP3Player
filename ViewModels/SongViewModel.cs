@@ -10,20 +10,27 @@ namespace MP3Player.ViewModels
 {
     public class SongViewModel : BaseViewModel
     {
-        private WaveOut player;
         private Song song;
         private Counter counter;
 
-        public WaveOut Player { get { return player; } }
+        public WaveOut Player { get; }
         public Song Song
         {
             get { return song; }
-            set { song = value; OnPropertyChanged("Song"); }
+            set 
+            { 
+                song = value; 
+                OnPropertyChanged("Song"); 
+            }
         }
         public Counter Counter
         {
             get { return counter; }
-            set { counter = value; OnPropertyChanged("Counter"); }
+            set 
+            { 
+                counter = value; 
+                OnPropertyChanged("Counter");
+            }
         }
 
         public ICommand PlaySong { get; private set; }
@@ -35,13 +42,11 @@ namespace MP3Player.ViewModels
         {
             song = new Song(null);
             counter = new Counter();
-            player = new WaveOut();
-            PlaySong = new MainCommand(r => CanPlayMusic(r as Playlist), r => PlayMusic(r as Playlist));
-            PauseSong = new MainCommand(r => CanPauseSong(), r => SongPause());
-            PlayNextSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist),
-                                           r => UniversalPlay(r as Playlist, PlayType.Next));
-            PlayBackSong = new MainCommand(r => CanPlayBackOrNextSong(r as Playlist),
-                                           r => UniversalPlay(r as Playlist, PlayType.Back));
+            Player = new WaveOut();
+            PlaySong = new MainCommand(x => CanPlayMusic(x as Playlist), x => PlayMusic(x as Playlist));
+            PauseSong = new MainCommand(x => CanPauseSong(), x => SongPause());
+            PlayNextSong = new MainCommand(x => CanPlayBackOrNextSong(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Next));
+            PlayBackSong = new MainCommand(x => CanPlayBackOrNextSong(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Back));
         }
 
         public bool CanPlayMusic(Playlist _pathsSongs)

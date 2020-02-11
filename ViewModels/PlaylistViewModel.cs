@@ -27,14 +27,9 @@ namespace MP3Player.ViewModels
         public void OpenFileDialog()
         {
             var fileDialog = new OpenFileDialog { Multiselect = true };
-            if (fileDialog.ShowDialog() != null) 
-            {
-                var fileNames = fileDialog.FileNames.Where(x => Path.GetExtension(x).Equals(".mp3", StringComparison.InvariantCultureIgnoreCase));
-                foreach (var filename in fileNames)
-                {
+            if (fileDialog.ShowDialog() != null)
+                foreach (var filename in fileDialog.FileNames.Where(x => x.ToLower().EndsWith(".mp3")))
                     Playlist.SongsList.Add(filename);
-                }
-            }
         }
 
         public bool CanDeleteOrClear() => 
