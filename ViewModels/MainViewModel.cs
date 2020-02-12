@@ -4,7 +4,6 @@ namespace MP3Player.ViewModels
     {
         public PlaylistViewModel PlaylistViewModel { get; }
         public SongViewModel SongViewModel { get; }
-
         public MainViewModel() 
         {
             PlaylistViewModel = new PlaylistViewModel();

@@ -6,6 +6,7 @@ namespace MP3Player.Models
     {
         public ObservableCollection<string> SongsList { get; set; }
         public string SelectedSong { get; set; }
+
         public Playlist() =>
             SongsList = new ObservableCollection<string> { };
     }

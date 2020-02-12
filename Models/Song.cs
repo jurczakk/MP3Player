@@ -22,13 +22,13 @@ namespace MP3Player.Models
             }
         }
 
-        public Song(string _path)
+        public Song(string path)
         {
-            Path = _path;
-            if (!string.IsNullOrWhiteSpace(_path))
+            Path = path;
+            if (!string.IsNullOrWhiteSpace(path))
             {
-                MP3 = new AudioFileReader(_path) { Volume = Volume };
-                Name = System.IO.Path.GetFileName(_path);
+                MP3 = new AudioFileReader(path) { Volume = Volume };
+                Name = System.IO.Path.GetFileName(path);
             }
             IsPlaying = false;
             IsPausing = false;

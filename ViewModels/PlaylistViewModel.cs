@@ -3,8 +3,6 @@ using MP3Player.Models;
 using System.Windows.Input;
 using System.Linq;
 using System.Windows.Forms;
-using System.IO;
-using System;
 
 namespace MP3Player.ViewModels
 {

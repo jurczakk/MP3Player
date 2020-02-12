@@ -16,19 +16,31 @@ namespace MP3Player.Models
         public Song Song
         {
             get { return song; }
-            set { song = value; positionValue = 0d; }
+            set 
+            {
+                song = value; 
+                positionValue = 0d; 
+            }
         }
         
         public double PositionMax
         {
             get { return positionMax; } 
-            set { positionMax = value; OnPropertyChanged("PositionMax"); }
+            set
+            { 
+                positionMax = value; 
+                OnPropertyChanged("PositionMax"); 
+            }
         }
 
         public string TimeText
         {
             get { return timeText; } 
-            set { timeText = value; OnPropertyChanged("TimeText"); }
+            set 
+            { 
+                timeText = value; 
+                OnPropertyChanged("TimeText"); 
+            }
         }
         
         public double PositionValue
@@ -51,9 +63,9 @@ namespace MP3Player.Models
         public void ChangePosition() =>
             song.MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
 
-        public void CountTime(EventHandler e)
+        public void CountTime(EventHandler eventHandler)
         {
-            Timer.Tick += new EventHandler(e);
+            Timer.Tick += new EventHandler(eventHandler);
             Timer.Interval = 1000;
             Timer.Start();
         }
