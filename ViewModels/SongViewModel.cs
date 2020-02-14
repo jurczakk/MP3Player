@@ -46,35 +46,19 @@ namespace MP3Player.ViewModels
             Player = new WaveOut();
             PlaySong = new MainCommand(x => CanPlayMusic(x as Playlist), x => PlayMusic(x as Playlist));
             PauseSong = new MainCommand(x => CanPauseSong(), x => SongPause());
-            PlayNextSong = new MainCommand(x => CanPlayBackOrNextSong(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Next));
-            PlayBackSong = new MainCommand(x => CanPlayBackOrNextSong(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Back));
+            PlayNextSong = new MainCommand(x => CanPlayMusic(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Next));
+            PlayBackSong = new MainCommand(x => CanPlayMusic(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Back));
         }
 
-        public bool CanPlayMusic(Playlist playlist)
-        {
-            if (playlist != null || Song.IsPausing && new[] { playlist.SelectedSong, Song.Path }.Any(x => !string.IsNullOrWhiteSpace(x)))
-                return true;
-            return false;
-        }
+        public bool CanPlayMusic(Playlist playlist) =>
+            string.IsNullOrWhiteSpace(playlist?.SelectedSong) || Song == null ? false : true;
 
-        public bool CanPauseSong()
-        {
-            if (Song == null || !Song.IsPlaying)
-                return false;
-            return true;
-        }
-
-        public bool CanPlayBackOrNextSong(Playlist playlist)
-        {
-            if (playlist == null || string.IsNullOrWhiteSpace(playlist.SelectedSong) || Song == null)
-                return false;
-            return true;
-        }
+        public bool CanPauseSong() =>
+            Song == null || !Song.IsPlaying ? false : true;
 
         public void PlayMusic(Playlist playlist)
         {
-            if ((!Song.IsPlaying && Song.IsPausing) &&
-                (new[] { Song.Path, playlist.SelectedSong }.Any(x => x == Song.Path)))
+            if (!Song.IsPlaying && Song.IsPausing && (new[] { Song.Path, playlist.SelectedSong }.Any(x => x == Song.Path)))
             {
                 Player.Play();
                 Song.IsPausing = false;
@@ -85,6 +69,7 @@ namespace MP3Player.ViewModels
             {
                 Player.Pause();
             }
+
             PlayerHelper(playlist);
         }
 
