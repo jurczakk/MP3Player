@@ -63,15 +63,15 @@
                    HorizontalAlignment="Center"
                    FontSize="15" Text="{Binding SongViewModel.Song.Name}"/>
 
-        <TextBlock Grid.Column="6" Grid.Row="6" Foreground="White" FontSize="15" Text="{Binding SongViewModel.Counter.TimeText}"
+        <TextBlock Grid.Column="6" Grid.Row="6" Foreground="White" FontSize="15" Text="{Binding SongViewModel.Song.TimeText}"
                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
         <TextBlock  Grid.Column="6" Grid.Row="7" Foreground="White" 
                     FontSize="15" Text="{Binding SongViewModel.Song.Volume, StringFormat='Volume {0}%'}" 
                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <Slider Minimum="0" Maximum="{Binding SongViewModel.Counter.PositionMax}" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="5" 
-                VerticalAlignment="Center" Value="{Binding SongViewModel.Counter.PositionValue}"/>
+        <Slider Minimum="0" Maximum="{Binding SongViewModel.Song.PositionMax}" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="5" 
+                VerticalAlignment="Center" Value="{Binding SongViewModel.Song.PositionValue}"/>
 
         <Slider Minimum="0" Maximum="100" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="5" 
                 VerticalAlignment="Center" Value="{Binding SongViewModel.Song.Volume}" />

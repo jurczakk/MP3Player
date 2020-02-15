@@ -1,16 +1,65 @@
-﻿using NAudio.Wave;
+﻿using MP3Player.ViewModels;
+using NAudio.Wave;
+using System;
+using System.Windows.Forms;
 
 namespace MP3Player.Models
 {
-    public class Song
+    public class Song : BaseViewModel
     {
         private float volume;
+        private double positionMax;
+        private string timeText;
+        private double positionValue;
+
+        public Timer Timer { get; set; }
+
+        public double PositionMax
+        {
+            get { return positionMax; }
+            set
+            {
+                positionMax = value;
+                OnPropertyChanged("PositionMax");
+            }
+        }
+
+        public string TimeText
+        {
+            get { return timeText; }
+            set
+            {
+                timeText = value;
+                OnPropertyChanged("TimeText");
+            }
+        }
+
+        public double PositionValue
+        {
+            get { return positionValue; }
+            set
+            {
+                positionValue = value;
+                ChangePosition();
+                OnPropertyChanged("PositionValue");
+            }
+        }
+
+        internal void ChangePosition() =>
+            MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
+
+        public void CountTime(EventHandler eventHandler)
+        {
+            Timer.Tick += new EventHandler(eventHandler);
+            Timer.Interval = 1000;
+            Timer.Start();
+        }
+
         public string Name { get; set; }
         public string Path { get; set; }
         public bool IsPlaying { get; set; }
         public bool IsPausing { get; set; }
         public AudioFileReader MP3 { get; set; }
-
         public float Volume
         {
             get { return volume; }
@@ -19,20 +68,22 @@ namespace MP3Player.Models
                 volume = float.Parse(value.ToString("0"));
                 if (MP3 != null)
                     MP3.Volume = volume / 100;
+                OnPropertyChanged("Volume");
             }
         }
 
         public Song(string path)
         {
-            Path = path;
             if (!string.IsNullOrWhiteSpace(path))
             {
-                MP3 = new AudioFileReader(path) { Volume = Volume };
+                MP3 = new AudioFileReader(path) { Volume = Volume }; 
                 Name = System.IO.Path.GetFileName(path);
             }
+            Path = path;
             IsPlaying = false;
             IsPausing = false;
             Volume = 0f;
+            Timer = new Timer();
         }
     }
 }

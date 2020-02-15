@@ -6,31 +6,23 @@ using System.Linq;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.IO;
+using MP3Player.Factories;
+using System.Windows;
 
 namespace MP3Player.ViewModels
 {
     public class SongViewModel : BaseViewModel
     {
         private Song song;
-        private Counter counter;
 
         public WaveOut Player { get; }
         public Song Song
         {
             get { return song; }
-            set 
-            { 
-                song = value; 
-                OnPropertyChanged("Song"); 
-            }
-        }
-        public Counter Counter
-        {
-            get { return counter; }
             set
             {
-                counter = value; 
-                OnPropertyChanged("Counter");
+                song = value;
+                OnPropertyChanged("Song");
             }
         }
 
@@ -42,8 +34,8 @@ namespace MP3Player.ViewModels
         public SongViewModel()
         {
             song = new Song(null);
-            counter = new Counter();
             Player = new WaveOut();
+
             PlaySong = new MainCommand(x => CanPlayMusic(x as Playlist), x => PlayMusic(x as Playlist));
             PauseSong = new MainCommand(x => CanPauseSong(), x => SongPause());
             PlayNextSong = new MainCommand(x => CanPlayMusic(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Next));
@@ -51,18 +43,18 @@ namespace MP3Player.ViewModels
         }
 
         public bool CanPlayMusic(Playlist playlist) =>
-            string.IsNullOrWhiteSpace(playlist?.SelectedSong) || Song == null ? false : true;
+            !(Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong));
 
         public bool CanPauseSong() =>
-            Song == null || !Song.IsPlaying ? false : true;
+            !(Song == null || !Song.IsPlaying);
 
         public void PlayMusic(Playlist playlist)
         {
             if (!Song.IsPlaying && Song.IsPausing && (new[] { Song.Path, playlist.SelectedSong }.Any(x => x == Song.Path)))
             {
                 Player.Play();
-                Song.IsPausing = false;
                 Song.IsPlaying = true;
+                Song.IsPausing = false;
                 return;
             }
             else if (Song.IsPlaying)
@@ -96,26 +88,35 @@ namespace MP3Player.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(playlist.SelectedSong))
             {
-                Song = new Song(playlist.SelectedSong) { IsPlaying = true, Volume = Song.Volume };
-                Counter.Song = Song;
-                Counter.PositionMax = Song.MP3.TotalTime.TotalSeconds;
-                Counter.CountTime((obj, e) =>
+                Song = SongFactory.GetSong(playlist.SelectedSong, 0f);
+                
+                if (Song == null)
                 {
-                    if (Counter.Song.MP3.CurrentTime == Counter.Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
+                    MessageBox.Show("Song is null");
+                    return;
+                }
+
+                Song.IsPlaying = true;
+                Song.Volume = Song.Volume;
+                Song.PositionMax = Song.MP3.TotalTime.TotalSeconds;
+                
+                Song.CountTime((obj, e) =>
+                {
+                    if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
                         playlist.SelectedSong = GetNewSongPath(playlist.SongsList, PlayType.Next, Song);
                         PlayMusic(playlist);
                     }
 
-                    Counter.TimeText = string.Format("{0} {1}",
-                        Counter.Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"),
-                        Counter.Song.MP3.TotalTime.ToString().Split('.')[0]);
+                    Song.TimeText = string.Format("{0} {1}",
+                        Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"),
+                        Song.MP3.TotalTime.ToString().Split('.')[0]);
 
-                    if (Counter.Song.IsPlaying)
-                        Counter.PositionValue = Counter.Song.MP3.CurrentTime.TotalSeconds;
+                    if (Song.IsPlaying)
+                        Song.PositionValue = Song.MP3.CurrentTime.TotalSeconds;
                 });
 
-                Counter.ChangePosition();
+                Song.ChangePosition();
                 Song.Name = Path.GetFileName(Song.MP3.FileName);
                 Song.MP3.Volume = Song.Volume / 100;
                 Player.Init(Song.MP3);
