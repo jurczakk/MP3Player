@@ -33,8 +33,8 @@ namespace MP3Player.ViewModels
 
         public SongViewModel()
         {
-            song = new Song(null);
             Player = new WaveOut();
+            song = new Song(string.Empty);
 
             PlaySong = new MainCommand(x => CanPlayMusic(x as Playlist), x => PlayMusic(x as Playlist));
             PauseSong = new MainCommand(x => CanPauseSong(), x => SongPause());
@@ -88,18 +88,12 @@ namespace MP3Player.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(playlist.SelectedSong))
             {
-                Song = SongFactory.GetSong(playlist.SelectedSong, 0f);
-                
-                if (Song == null)
-                {
-                    MessageBox.Show("Song is null");
-                    return;
-                }
-
+                Song = SongFactory.GetSong(playlist.SelectedSong, 25f);
+                if (Song == null) return;
                 Song.IsPlaying = true;
                 Song.Volume = Song.Volume;
                 Song.PositionMax = Song.MP3.TotalTime.TotalSeconds;
-                
+
                 Song.CountTime((obj, e) =>
                 {
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
