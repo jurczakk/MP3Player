@@ -13,7 +13,6 @@ namespace MP3Player.Models
         private double positionValue;
 
         public Timer Timer { get; set; }
-
         public double PositionMax
         {
             get { return positionMax; }
@@ -23,7 +22,6 @@ namespace MP3Player.Models
                 OnPropertyChanged("PositionMax");
             }
         }
-
         public string TimeText
         {
             get { return timeText; }
@@ -33,7 +31,6 @@ namespace MP3Player.Models
                 OnPropertyChanged("TimeText");
             }
         }
-
         public double PositionValue
         {
             get { return positionValue; }
@@ -44,17 +41,6 @@ namespace MP3Player.Models
                 OnPropertyChanged("PositionValue");
             }
         }
-
-        internal void ChangePosition() =>
-            MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
-
-        public void CountTime(EventHandler eventHandler)
-        {
-            Timer.Tick += new EventHandler(eventHandler);
-            Timer.Interval = 1000;
-            Timer.Start();
-        }
-
         public string Name { get; set; }
         public string Path { get; set; }
         public bool IsPlaying { get; set; }
@@ -71,8 +57,19 @@ namespace MP3Player.Models
                 OnPropertyChanged("Volume");
             }
         }
+        
+        
+        internal void ChangePosition() =>
+            MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
 
-        public Song(string path)
+        internal void CountTime(EventHandler eventHandler)
+        {
+            Timer.Tick += new EventHandler(eventHandler);
+            Timer.Interval = 1000;
+            Timer.Start();
+        }
+
+        public Song(string path, float volume = 0f)
         {
             if (!string.IsNullOrWhiteSpace(path))
             {
@@ -80,9 +77,9 @@ namespace MP3Player.Models
                 Name = System.IO.Path.GetFileName(path);
             }
             Path = path;
+            Volume = volume;
             IsPlaying = false;
             IsPausing = false;
-            Volume = 0f;
             Timer = new Timer();
         }
     }

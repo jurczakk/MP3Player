@@ -10,7 +10,7 @@ namespace MP3Player.Factories
             try { var audioFileReader = new AudioFileReader(path) { Volume = volume }; }
             catch { return null; }
 
-            return new Song(path);
+            return new Song(path, volume);
         }
     }
 }

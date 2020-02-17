@@ -1,13 +1,12 @@
 using MP3Player.Commands;
 using MP3Player.Enums;
 using MP3Player.Models;
+using MP3Player.Factories;
 using NAudio.Wave;
 using System.Linq;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.IO;
-using MP3Player.Factories;
-using System.Windows;
 
 namespace MP3Player.ViewModels
 {
@@ -50,7 +49,7 @@ namespace MP3Player.ViewModels
 
         public void PlayMusic(Playlist playlist)
         {
-            if (!Song.IsPlaying && Song.IsPausing && (new[] { Song.Path, playlist.SelectedSong }.Any(x => x == Song.Path)))
+            if (!Song.IsPlaying && Song.IsPausing && playlist.SelectedSong == Song.Path)
             {
                 Player.Play();
                 Song.IsPlaying = true;
@@ -88,10 +87,13 @@ namespace MP3Player.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(playlist.SelectedSong))
             {
-                Song = SongFactory.GetSong(playlist.SelectedSong, 25f);
-                if (Song == null) return;
+                Song = SongFactory.GetSong(playlist.SelectedSong, Song.Volume);
+                if (Song == null)
+                {
+                    playlist.SongsList.Remove(playlist.SelectedSong);
+                }
+
                 Song.IsPlaying = true;
-                Song.Volume = Song.Volume;
                 Song.PositionMax = Song.MP3.TotalTime.TotalSeconds;
 
                 Song.CountTime((obj, e) =>
@@ -99,7 +101,7 @@ namespace MP3Player.ViewModels
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
                         playlist.SelectedSong = GetNewSongPath(playlist.SongsList, PlayType.Next, Song);
-                        PlayMusic(playlist);
+                        PlayerHelper(playlist);
                     }
 
                     Song.TimeText = string.Format("{0} {1}",
