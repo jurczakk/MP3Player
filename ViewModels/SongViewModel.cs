@@ -1,7 +1,6 @@
 using MP3Player.Commands;
 using MP3Player.Enums;
 using MP3Player.Models;
-using MP3Player.Factories;
 using NAudio.Wave;
 using System.Linq;
 using System.Windows.Input;
@@ -14,7 +13,6 @@ namespace MP3Player.ViewModels
     {
         private Song song;
 
-        public WaveOut Player { get; }
         public Song Song
         {
             get { return song; }
@@ -24,7 +22,7 @@ namespace MP3Player.ViewModels
                 OnPropertyChanged("Song");
             }
         }
-
+        public WaveOut Player { get; }
         public ICommand PlaySong { get; private set; }
         public ICommand PauseSong { get; private set; }
         public ICommand PlayNextSong { get; private set; }
@@ -85,15 +83,12 @@ namespace MP3Player.ViewModels
 
         private void PlayerHelper(Playlist playlist)
         {
-            if (!string.IsNullOrWhiteSpace(playlist.SelectedSong))
-            {
-                Song = SongFactory.GetSong(playlist.SelectedSong, Song.Volume);
-                if (Song == null)
-                {
-                    playlist.SongsList.Remove(playlist.SelectedSong);
-                }
+            if (!File.Exists(playlist.SelectedSong))
+                playlist.SongsList.Remove(playlist.SelectedSong);
 
-                Song.IsPlaying = true;
+            if (!string.IsNullOrWhiteSpace(playlist.SelectedSong) && File.Exists(playlist.SelectedSong))
+            {
+                Song = new Song(playlist.SelectedSong, Song.Volume) { IsPlaying = true };
                 Song.PositionMax = Song.MP3.TotalTime.TotalSeconds;
 
                 Song.CountTime((obj, e) =>

@@ -57,8 +57,7 @@ namespace MP3Player.Models
                 OnPropertyChanged("Volume");
             }
         }
-        
-        
+
         internal void ChangePosition() =>
             MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
 
@@ -73,7 +72,7 @@ namespace MP3Player.Models
         {
             if (!string.IsNullOrWhiteSpace(path))
             {
-                MP3 = new AudioFileReader(path) { Volume = Volume }; 
+                MP3 = new AudioFileReader(path) { Volume = Volume };
                 Name = System.IO.Path.GetFileName(path);
             }
             Path = path;
