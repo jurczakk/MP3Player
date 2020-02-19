@@ -32,7 +32,6 @@
         <ListView Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4"
                   ItemsSource="{Binding PlaylistViewModel.Playlist.SongsList}"
                   SelectedValue="{Binding PlaylistViewModel.Playlist.SelectedSong}"
-                  SelectedItem="{Binding PlaylistViewModel.Playlist.SelectedSongs}"
                   AllowDrop="False" Background="Black">
             <ListView.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.DeleteSongFromPlaylist}"/>
