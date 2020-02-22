@@ -1,7 +1,8 @@
 ﻿using MP3Player.ViewModels;
 using NAudio.Wave;
 using System;
-using System.Windows.Forms;
+using System.Timers;
+//using System.Windows.Forms;
 
 namespace MP3Player.Models
 {
@@ -63,9 +64,20 @@ namespace MP3Player.Models
 
         internal void CountTime(EventHandler eventHandler)
         {
-            Timer.Tick += new EventHandler(eventHandler);
+            Timer.Elapsed += new ElapsedEventHandler(eventHandler);
             Timer.Interval = 1000;
             Timer.Start();
+            
+            //System.Timers.Timer a = new System.Timers.Timer();
+
+            //a.Interval = 1000;
+            //a.Start();
+
+            
+
+            //Timer.Tick += new EventHandler(eventHandler);
+            //Timer.Interval = 1000;
+            //Timer.Start();
         }
 
         public Song(string path, float volume = 0f)
