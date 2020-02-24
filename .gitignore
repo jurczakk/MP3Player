@@ -1,4 +1,4 @@
-bin/
-obj/
+MP3Player/bin/
+MP3Player/obj/
 .vs/
-.vscode/
+.vscode
