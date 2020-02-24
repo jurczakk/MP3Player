@@ -20,10 +20,14 @@ namespace MP3Player.Commands
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object parameter) =>
-            canExecute(parameter);
+        public bool CanExecute(object parameter)
+        {
+            return canExecute(parameter);
+        }
 
-        public void Execute(object parameter) =>
+        public void Execute(object parameter)
+        {
             execute(parameter);
+        }
     }
 }

@@ -1,10 +1,12 @@
+using MP3Player.Interfaces;
+
 namespace MP3Player.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : IMainViewModel
     {
-        public PlaylistViewModel PlaylistViewModel { get; }
-        public SongViewModel SongViewModel { get; }
-        public MainViewModel() 
+        public IPlaylistViewModel PlaylistViewModel { get; }
+        public ISongViewModel SongViewModel { get; }
+        public MainViewModel()
         {
             PlaylistViewModel = new PlaylistViewModel();
             SongViewModel = new SongViewModel();

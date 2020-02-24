@@ -3,12 +3,13 @@ using MP3Player.Models;
 using System.Windows.Input;
 using System.Linq;
 using Microsoft.Win32;
+using MP3Player.Interfaces;
 
 namespace MP3Player.ViewModels
 {
-    public class PlaylistViewModel
+    public class PlaylistViewModel : IPlaylistViewModel
     {
-        public Playlist Playlist { get; }
+        public IPlaylist Playlist { get; }
 
         public PlaylistViewModel()
         {
@@ -30,13 +31,19 @@ namespace MP3Player.ViewModels
                     Playlist.SongsList.Add(filename);
         }
 
-        public bool CanDeleteOrClear() => 
-            Playlist?.SongsList == null ? false : true;
+        public bool CanDeleteOrClear()
+        {
+            return Playlist?.SongsList == null ? false : true;
+        }
 
-        public void DeleteFile() =>
+        public void DeleteFile() 
+        {
             Playlist.SongsList.Remove(Playlist.SelectedSong);
+        }
 
-        public void ClearPlaylist() =>
+        public void ClearPlaylist() 
+        {
             Playlist.SongsList.ToList().All(x => Playlist.SongsList.Remove(x));
+        }
     }
 }

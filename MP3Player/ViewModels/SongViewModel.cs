@@ -6,14 +6,16 @@ using System.Linq;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.IO;
+using MP3Player.Interfaces;
+using System.Collections.Generic;
 
 namespace MP3Player.ViewModels
 {
-    public class SongViewModel : BaseViewModel
+    public class SongViewModel : BaseViewModel, ISongViewModel
     {
-        private Song song;
+        private ISong song;
 
-        public Song Song
+        public ISong Song
         {
             get { return song; }
             set
@@ -39,13 +41,18 @@ namespace MP3Player.ViewModels
             PlayBackSong = new MainCommand(x => CanPlayMusic(x as Playlist), x => UniversalPlay(x as Playlist, PlayType.Back));
         }
 
-        public bool CanPlayMusic(Playlist playlist) =>
-            !(Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong));
+        public bool CanPlayMusic(IPlaylist playlist)
+        {
+            return !(Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong));
+        }
 
-        public bool CanPauseSong() =>
-            !(Song == null || !Song.IsPlaying);
 
-        public void PlayMusic(Playlist playlist)
+        public bool CanPauseSong()
+        {
+            return !(Song == null || !Song.IsPlaying);
+        }
+
+        public void PlayMusic(IPlaylist playlist)
         {
             if (!Song.IsPlaying && Song.IsPausing && playlist.SelectedSong == Song.Path)
             {
@@ -69,7 +76,7 @@ namespace MP3Player.ViewModels
             Song.IsPausing = true;
         }
 
-        public void UniversalPlay(Playlist playlist, PlayType playType)
+        public void UniversalPlay(IPlaylist playlist, PlayType playType)
         {
             if (Song.IsPlaying)
             {
@@ -81,7 +88,7 @@ namespace MP3Player.ViewModels
             PlayerHelper(playlist);
         }
 
-        private void PlayerHelper(Playlist playlist)
+        private void PlayerHelper(IPlaylist playlist)
         {
             if (!File.Exists(playlist.SelectedSong))
                 playlist.SongsList.Remove(playlist.SelectedSong);
@@ -90,7 +97,7 @@ namespace MP3Player.ViewModels
             {
                 Song = new Song(playlist.SelectedSong, Song.Volume) { IsPlaying = true };
                 Song.PositionMax = Song.MP3.TotalTime.TotalSeconds;
-
+               
                 Song.CountTime((obj, e) =>
                 {
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
@@ -115,7 +122,7 @@ namespace MP3Player.ViewModels
             }
         }
 
-        private string GetNewSongPath(ObservableCollection<string> songsList, PlayType playType, Song song)
+        private string GetNewSongPath(IList<string> songsList, PlayType playType, ISong song)
         {
             var songsListWithIDs = songsList.Select((x, i) => new { Index = i, Value = x });
             var currentlyID = songsListWithIDs.First(x => x.Value == song.Path).Index;

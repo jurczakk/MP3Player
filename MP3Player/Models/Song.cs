@@ -1,12 +1,12 @@
-﻿using MP3Player.ViewModels;
+﻿using MP3Player.Interfaces;
+using MP3Player.ViewModels;
 using NAudio.Wave;
 using System;
 using System.Timers;
-//using System.Windows.Forms;
 
 namespace MP3Player.Models
 {
-    public class Song : BaseViewModel
+    public class Song : BaseViewModel, ISong
     {
         private float volume;
         private double positionMax;
@@ -59,25 +59,16 @@ namespace MP3Player.Models
             }
         }
 
-        internal void ChangePosition() =>
+        public void ChangePosition()
+        {
             MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
+        }   
 
-        internal void CountTime(EventHandler eventHandler)
+        public void CountTime(EventHandler eventHandler)
         {
             Timer.Elapsed += new ElapsedEventHandler(eventHandler);
             Timer.Interval = 1000;
             Timer.Start();
-            
-            //System.Timers.Timer a = new System.Timers.Timer();
-
-            //a.Interval = 1000;
-            //a.Start();
-
-            
-
-            //Timer.Tick += new EventHandler(eventHandler);
-            //Timer.Interval = 1000;
-            //Timer.Start();
         }
 
         public Song(string path, float volume = 0f)

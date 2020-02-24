@@ -1,13 +1,17 @@
+using MP3Player.Interfaces;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace MP3Player.Models
 {
-    public class Playlist 
+    public class Playlist : IPlaylist
     {
-        public ObservableCollection<string> SongsList { get; set; }
+        public IList<string> SongsList { get; set; }
         public string SelectedSong { get; set; }
 
-        public Playlist() =>
+        public Playlist()
+        {
             SongsList = new ObservableCollection<string> { };
+        }
     }
 }
