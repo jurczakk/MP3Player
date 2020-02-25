@@ -12,7 +12,6 @@ namespace MP3Player.Models
         private double positionMax;
         private string timeText;
         private double positionValue;
-
         public Timer Timer { get; set; }
         public double PositionMax
         {
@@ -58,24 +57,21 @@ namespace MP3Player.Models
                 OnPropertyChanged("Volume");
             }
         }
-
         public void ChangePosition()
         {
             MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
         }   
-
         public void CountTime(EventHandler eventHandler)
         {
             Timer.Elapsed += new ElapsedEventHandler(eventHandler);
             Timer.Interval = 1000;
             Timer.Start();
         }
-
-        public Song(string path, float volume = 0f)
+        public Song(string path = "", float volume = 0f)
         {
             if (!string.IsNullOrWhiteSpace(path))
             {
-                MP3 = new AudioFileReader(path) { Volume = Volume };
+                MP3 = new AudioFileReader(path) { Volume = volume };
                 Name = System.IO.Path.GetFileName(path);
             }
             Path = path;

@@ -8,7 +8,6 @@ namespace MP3Player.Interfaces
         ICommand DeleteSongFromPlaylist { get; }
         ICommand GetSongsPaths { get; }
         IPlaylist Playlist { get; }
-
         bool CanDeleteOrClear();
         void ClearPlaylist();
         void DeleteFile();

@@ -4,25 +4,19 @@ using MP3Player.Models;
 using NAudio.Wave;
 using System.Linq;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 using System.IO;
 using MP3Player.Interfaces;
-using System.Collections.Generic;
+using MP3Player.Helpers;
 
 namespace MP3Player.ViewModels
 {
     public class SongViewModel : BaseViewModel, ISongViewModel
     {
         private ISong song;
-
         public ISong Song
         {
             get { return song; }
-            set
-            {
-                song = value;
-                OnPropertyChanged("Song");
-            }
+            set { song = value; OnPropertyChanged("Song"); }
         }
         public WaveOut Player { get; }
         public ICommand PlaySong { get; private set; }
@@ -33,7 +27,7 @@ namespace MP3Player.ViewModels
         public SongViewModel()
         {
             Player = new WaveOut();
-            song = new Song(string.Empty);
+            song = new Song();
 
             PlaySong = new MainCommand(x => CanPlayMusic(x as Playlist), x => PlayMusic(x as Playlist));
             PauseSong = new MainCommand(x => CanPauseSong(), x => SongPause());
@@ -45,7 +39,6 @@ namespace MP3Player.ViewModels
         {
             return !(Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong));
         }
-
 
         public bool CanPauseSong()
         {
@@ -84,7 +77,7 @@ namespace MP3Player.ViewModels
                 Song.IsPausing = false;
             }
 
-            playlist.SelectedSong = GetNewSongPath(playlist.SongsList, playType, Song);
+            playlist.SelectedSong = Utils.GetNewSongPath(playlist.SongsList, playType, Song);
             PlayerHelper(playlist);
         }
 
@@ -102,7 +95,7 @@ namespace MP3Player.ViewModels
                 {
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
-                        playlist.SelectedSong = GetNewSongPath(playlist.SongsList, PlayType.Next, Song);
+                        playlist.SelectedSong = Utils.GetNewSongPath(playlist.SongsList, PlayType.Next, Song);
                         PlayerHelper(playlist);
                     }
 
@@ -120,18 +113,6 @@ namespace MP3Player.ViewModels
                 Player.Init(Song.MP3);
                 Player.Play();
             }
-        }
-
-        private string GetNewSongPath(IList<string> songsList, PlayType playType, ISong song)
-        {
-            var songsListWithIDs = songsList.Select((x, i) => new { Index = i, Value = x });
-            var currentlyID = songsListWithIDs.First(x => x.Value == song.Path).Index;
-            var ID = currentlyID == 0 ? songsList.Count - 1 : currentlyID - 1;
-
-            if (playType == PlayType.Next)
-                ID = currentlyID == songsList.Count - 1 ? 0 : currentlyID + 1;
-
-            return songsListWithIDs.First(x => x.Index == ID).Value;
         }
     }
 }

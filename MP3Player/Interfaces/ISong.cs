@@ -16,7 +16,6 @@ namespace MP3Player.Interfaces
         Timer Timer { get; set; }
         string TimeText { get; set; }
         float Volume { get; set; }
-
         void ChangePosition();
         void CountTime(EventHandler eventHandler);
     }

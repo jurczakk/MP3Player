@@ -12,7 +12,6 @@ namespace MP3Player.Interfaces
         ICommand PlayNextSong { get; }
         ICommand PlaySong { get; }
         ISong Song { get; set; }
-
         bool CanPauseSong();
         bool CanPlayMusic(IPlaylist playlist);
         void PlayMusic(IPlaylist playlist);
