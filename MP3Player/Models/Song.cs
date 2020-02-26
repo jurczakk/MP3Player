@@ -1,4 +1,4 @@
-﻿using MP3Player.Interfaces;
+﻿using MP3Player.Abstracts;
 using MP3Player.ViewModels;
 using NAudio.Wave;
 using System;
@@ -8,28 +8,20 @@ namespace MP3Player.Models
 {
     public class Song : BaseViewModel, ISong
     {
-        private float volume;
         private double positionMax;
         private string timeText;
+        private float volume;
         private double positionValue;
-        public Timer Timer { get; set; }
+
         public double PositionMax
         {
             get { return positionMax; }
-            set
-            {
-                positionMax = value;
-                OnPropertyChanged("PositionMax");
-            }
+            set { positionMax = value; OnPropertyChanged("PositionMax"); }
         }
         public string TimeText
         {
             get { return timeText; }
-            set
-            {
-                timeText = value;
-                OnPropertyChanged("TimeText");
-            }
+            set { timeText = value; OnPropertyChanged("TimeText"); }
         }
         public double PositionValue
         {
@@ -41,32 +33,35 @@ namespace MP3Player.Models
                 OnPropertyChanged("PositionValue");
             }
         }
-        public string Name { get; set; }
-        public string Path { get; set; }
-        public bool IsPlaying { get; set; }
-        public bool IsPausing { get; set; }
-        public AudioFileReader MP3 { get; set; }
         public float Volume
         {
             get { return volume; }
             set
             {
                 volume = float.Parse(value.ToString("0"));
-                if (MP3 != null)
-                    MP3.Volume = volume / 100;
+                if (MP3 != null) MP3.Volume = volume / 100;
                 OnPropertyChanged("Volume");
             }
         }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public bool IsPlaying { get; set; }
+        public bool IsPausing { get; set; }
+        public AudioFileReader MP3 { get; set; }
+        public Timer Timer { get; set; }
+
         public void ChangePosition()
         {
             MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
         }   
+
         public void CountTime(EventHandler eventHandler)
         {
             Timer.Elapsed += new ElapsedEventHandler(eventHandler);
             Timer.Interval = 1000;
             Timer.Start();
         }
+
         public Song(string path = "", float volume = 0f)
         {
             if (!string.IsNullOrWhiteSpace(path))
@@ -76,8 +71,7 @@ namespace MP3Player.Models
             }
             Path = path;
             Volume = volume;
-            IsPlaying = false;
-            IsPausing = false;
+            IsPlaying = IsPausing = false;
             Timer = new Timer();
         }
     }

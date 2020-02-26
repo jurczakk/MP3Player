@@ -1,9 +1,9 @@
 ﻿using MP3Player.Enums;
-using MP3Player.Interfaces;
+using MP3Player.Abstracts;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MP3Player.Helpers
+namespace MP3Player.Extensions
 {
     public static class Utils
     {

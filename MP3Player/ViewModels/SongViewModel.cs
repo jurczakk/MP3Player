@@ -5,8 +5,8 @@ using NAudio.Wave;
 using System.Linq;
 using System.Windows.Input;
 using System.IO;
-using MP3Player.Interfaces;
-using MP3Player.Helpers;
+using MP3Player.Abstracts;
+using MP3Player.Extensions;
 
 namespace MP3Player.ViewModels
 {
@@ -26,8 +26,8 @@ namespace MP3Player.ViewModels
 
         public SongViewModel()
         {
-            Player = new WaveOut();
             song = new Song();
+            Player = new WaveOut();
 
             PlaySong = new MainCommand(x => CanPlayMusic(x as Playlist), x => PlayMusic(x as Playlist));
             PauseSong = new MainCommand(x => CanPauseSong(), x => SongPause());
@@ -37,12 +37,16 @@ namespace MP3Player.ViewModels
 
         public bool CanPlayMusic(IPlaylist playlist)
         {
-            return !(Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong));
+            if (Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong))
+                return false;
+            return true;
         }
 
         public bool CanPauseSong()
         {
-            return !(Song == null || !Song.IsPlaying);
+            if (Song == null || !Song.IsPlaying)
+                return false;
+            return true;
         }
 
         public void PlayMusic(IPlaylist playlist)

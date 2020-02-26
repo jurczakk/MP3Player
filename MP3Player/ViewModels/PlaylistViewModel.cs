@@ -3,7 +3,7 @@ using MP3Player.Models;
 using System.Windows.Input;
 using System.Linq;
 using Microsoft.Win32;
-using MP3Player.Interfaces;
+using MP3Player.Abstracts;
 
 namespace MP3Player.ViewModels
 {
@@ -33,7 +33,9 @@ namespace MP3Player.ViewModels
 
         public bool CanDeleteOrClear()
         {
-            return Playlist?.SongsList == null ? false : true;
+            if (Playlist?.SongsList == null)
+                return false;
+            return true;
         }
 
         public void DeleteFile() 
