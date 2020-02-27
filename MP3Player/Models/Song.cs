@@ -10,8 +10,8 @@ namespace MP3Player.Models
     {
         private double positionMax;
         private string timeText;
-        private float volume;
         private double positionValue;
+        private float volume;
 
         public double PositionMax
         {
