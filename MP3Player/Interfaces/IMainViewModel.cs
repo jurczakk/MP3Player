@@ -1,4 +1,4 @@
-﻿namespace MP3Player.Abstracts
+﻿namespace MP3Player.Interfaces
 {
     public interface IMainViewModel
     {

@@ -5,7 +5,7 @@ using NAudio.Wave;
 using System.Linq;
 using System.Windows.Input;
 using System.IO;
-using MP3Player.Abstracts;
+using MP3Player.Interfaces;
 using MP3Player.Extensions;
 
 namespace MP3Player.ViewModels

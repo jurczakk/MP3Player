@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace MP3Player.Abstracts
+namespace MP3Player.Interfaces
 {
     public interface IPlaylistViewModel
     {

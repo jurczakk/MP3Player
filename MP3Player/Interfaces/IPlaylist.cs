@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MP3Player.Abstracts
+namespace MP3Player.Interfaces
 {
     public interface IPlaylist
     {

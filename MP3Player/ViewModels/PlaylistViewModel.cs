@@ -3,7 +3,7 @@ using MP3Player.Models;
 using System.Windows.Input;
 using System.Linq;
 using Microsoft.Win32;
-using MP3Player.Abstracts;
+using MP3Player.Interfaces;
 
 namespace MP3Player.ViewModels
 {

@@ -1,4 +1,4 @@
-﻿using MP3Player.Abstracts;
+﻿using MP3Player.Interfaces;
 using MP3Player.ViewModels;
 using NAudio.Wave;
 using System;

@@ -1,4 +1,4 @@
-﻿using MP3Player.Abstracts;
+﻿using MP3Player.Interfaces;
 using System.ComponentModel;
 
 namespace MP3Player.ViewModels
