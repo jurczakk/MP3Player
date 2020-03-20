@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.IO;
 using MP3Player.Interfaces;
-using MP3Player.Extensions;
+using System.Collections.Generic;
 
 namespace MP3Player.ViewModels
 {
@@ -81,7 +81,7 @@ namespace MP3Player.ViewModels
                 Song.IsPausing = false;
             }
 
-            playlist.SelectedSong = Utils.GetNewSongPath(playlist.SongsList, playType, Song);
+            playlist.SelectedSong = GetNewSongPath(playlist.SongsList, playType, Song);
             PlayerHelper(playlist);
         }
 
@@ -94,12 +94,12 @@ namespace MP3Player.ViewModels
             {
                 Song = new Song(playlist.SelectedSong, Song.Volume) { IsPlaying = true };
                 Song.PositionMax = Song.MP3.TotalTime.TotalSeconds;
-               
+
                 Song.CountTime((obj, e) =>
                 {
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
-                        playlist.SelectedSong = Utils.GetNewSongPath(playlist.SongsList, PlayType.Next, Song);
+                        playlist.SelectedSong = GetNewSongPath(playlist.SongsList, PlayType.Next, Song);
                         PlayerHelper(playlist);
                     }
 
@@ -117,6 +117,18 @@ namespace MP3Player.ViewModels
                 Player.Init(Song.MP3);
                 Player.Play();
             }
+        }
+
+        private string GetNewSongPath(IList<string> songsList, PlayType playType, ISong song)
+        {
+            var songsListWithIDs = songsList.Select((x, i) => new { Index = i, Value = x });
+            var currentlyID = songsListWithIDs.First(x => x.Value == song.Path).Index;
+            var ID = currentlyID == 0 ? songsList.Count - 1 : currentlyID - 1;
+
+            if (playType == PlayType.Next)
+                ID = currentlyID == songsList.Count - 1 ? 0 : currentlyID + 1;
+
+            return songsListWithIDs.First(x => x.Index == ID).Value;
         }
     }
 }
