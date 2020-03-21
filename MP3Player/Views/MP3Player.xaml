@@ -34,8 +34,8 @@
                   SelectedValue="{Binding PlaylistViewModel.Playlist.SelectedSong}"
                   AllowDrop="False" Background="Black">
             <ListView.InputBindings>
-                <KeyBinding Key="Delete" Command="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.DeleteSongFromPlaylist}"/>
-                <KeyBinding Key="Enter"  Command="{Binding ElementName=MainGrid, Path=DataContext.SongViewModel.PlaySong}" 
+                <KeyBinding Key="Delete" Command="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.DeleteSong}"/>
+                <KeyBinding Key="Enter"  Command="{Binding ElementName=MainGrid, Path=DataContext.SongViewModel.Play}" 
                     CommandParameter="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.Playlist}"/>
             </ListView.InputBindings>
             <ListView.Resources>
@@ -77,34 +77,34 @@
 
         <Button Grid.Column="1" Grid.Row="8" Margin="17"
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
-                Command="{Binding PlaylistViewModel.ClearSongsPaths}" 
+                Command="{Binding PlaylistViewModel.ClearPlaylist}" 
                 Content="Clear Playlist"/>
 
         <Button Grid.Column="2" Grid.Row="8" Margin="17"
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
-                Command="{Binding PlaylistViewModel.GetSongsPaths}" 
+                Command="{Binding PlaylistViewModel.AddSongs}" 
                 Content="Add Songs"/>
 
         <Button Grid.Column="3" Grid.Row="8"  Margin="17"    
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
-                Command="{Binding Path=SongViewModel.PlaySong}"
+                Command="{Binding Path=SongViewModel.Play}"
                 CommandParameter="{Binding Path=PlaylistViewModel.Playlist}"
                 Content="Play"/>
 
         <Button Grid.Column="4" Grid.Row="8" Margin="17"
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
-                Command="{Binding SongViewModel.PauseSong}"
+                Command="{Binding SongViewModel.Pause}"
                 Content="Pause"/>
 
         <Button Grid.Column="5" Grid.Row="8" Margin="17" 
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
-                Command="{Binding SongViewModel.PlayBackSong}"
+                Command="{Binding SongViewModel.PlayBack}"
                 CommandParameter="{Binding PlaylistViewModel.Playlist}"
                 Content="Play Back"/>
 
         <Button Grid.Column="6" Grid.Row="8" Margin="17" 
                 Background="#71818A" Foreground="Black" FontWeight="Bold"
-                Command="{Binding SongViewModel.PlayNextSong}"
+                Command="{Binding SongViewModel.PlayNext}"
                 CommandParameter="{Binding PlaylistViewModel.Playlist}"
                 Content="Play Next"/>
     </Grid>

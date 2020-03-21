@@ -53,7 +53,7 @@ namespace MP3Player.Models
         public void ChangePosition()
         {
             MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
-        }   
+        }
 
         public void CountTime(EventHandler eventHandler)
         {
@@ -62,6 +62,7 @@ namespace MP3Player.Models
             Timer.Start();
         }
 
+        public Song() { }
         public Song(string path = "", float volume = 0f)
         {
             if (!string.IsNullOrWhiteSpace(path))
@@ -73,6 +74,19 @@ namespace MP3Player.Models
             Volume = volume;
             IsPlaying = IsPausing = false;
             Timer = new Timer();
+        }
+        public Song(double positionMax, string timeText, double positionValue, float volume, string name, string path, bool isPlaying, bool isPausing, AudioFileReader mp3, Timer timer)
+        {
+            PositionMax = positionMax;
+            TimeText = timeText;
+            PositionValue = positionValue;
+            Volume = volume;
+            Name = name;
+            Path = path;
+            IsPlaying = isPlaying;
+            IsPausing = isPausing;
+            MP3 = mp3;
+            Timer = timer;
         }
     }
 }
