@@ -6,12 +6,13 @@ namespace MP3Player.ViewModels
 {
     public class SongViewModel : BaseViewModel, ISongViewModel
     {
+        private ISong song;
         public ISong Song 
         {
-            get { return Song; }
+            get { return song; }
             set 
-            { 
-                Song = value; 
+            {
+                song = value; 
                 OnPropertyChanged("Song"); 
             }
         }

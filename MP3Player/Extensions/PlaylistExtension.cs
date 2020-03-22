@@ -30,7 +30,6 @@ namespace MP3Player.Extensions
         public static void ClearPlaylist(this IPlaylist playlist)
         {
             new List<string>(playlist.SongsList).All(x => playlist.SongsList.Remove(x));
-            //playlist.SongsList.ToList().All(x => Playlist.SongsList.Remove(x));
         }
     }
 }
