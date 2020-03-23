@@ -17,7 +17,7 @@ namespace MP3Player.Extensions
             return true;
         }
 
-        public static bool CanPauseSong(this ISong song)
+        public static bool CanPause(this ISong song)
         {
             if (song == null || !song.IsPlaying)
                 return false;
@@ -85,7 +85,7 @@ namespace MP3Player.Extensions
                     if (song.IsPlaying)
                         song.PositionValue = song.MP3.CurrentTime.TotalSeconds;
                 });
-
+                 
                 song.ChangePosition();
                 song.Name = Path.GetFileName(song.MP3.FileName);
                 song.MP3.Volume = song.Volume / 100;
