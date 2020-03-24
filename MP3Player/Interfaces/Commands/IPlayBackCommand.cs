@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace MP3Player.Interfaces
+namespace MP3Player.Interfaces.Commands
 {
-    public interface IAddSongsCommand
+    public interface IPlayBackCommand
     {
         event EventHandler CanExecuteChanged;
 

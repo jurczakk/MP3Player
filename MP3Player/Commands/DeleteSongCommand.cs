@@ -1,4 +1,5 @@
-﻿using MP3Player.Interfaces;
+﻿using MP3Player.Interfaces.Commands;
+using MP3Player.Interfaces.Models;
 using System;
 using System.Windows.Input;
 using static MP3Player.Extensions.PlaylistExtension;

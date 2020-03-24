@@ -1,5 +1,5 @@
 ﻿using MP3Player.Enums;
-using MP3Player.Interfaces;
+using MP3Player.Interfaces.Models;
 using MP3Player.Models;
 using NAudio.Wave;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace MP3Player.Extensions
 {
     public static class SongExtension
     {
-        public static bool CanPlayMusic(this ISong song, IPlaylist playlist)
+        public static bool CanPlay(this ISong song, IPlaylist playlist)
         {
             if (song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong))
                 return false;
@@ -24,7 +24,7 @@ namespace MP3Player.Extensions
             return true;
         }
 
-        public static void PlayMusic(this ISong song, IPlaylist playlist, WaveOut waveOut)
+        public static void Play(this ISong song, IPlaylist playlist, WaveOut waveOut)
         {
             if (!song.IsPlaying && song.IsPausing && playlist.SelectedSong == song.Path)
             {
@@ -41,7 +41,7 @@ namespace MP3Player.Extensions
             song.PlayerHelper(playlist, waveOut);
         }
 
-        public static void SongPause(this ISong song, WaveOut waveOut)
+        public static void Pause(this ISong song, WaveOut waveOut)
         {
             waveOut.Pause();
             song.IsPlaying = false;

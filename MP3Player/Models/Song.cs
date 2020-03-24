@@ -1,4 +1,4 @@
-﻿using MP3Player.Interfaces;
+﻿using MP3Player.Interfaces.Models;
 using MP3Player.ViewModels;
 using NAudio.Wave;
 using System;
@@ -75,7 +75,17 @@ namespace MP3Player.Models
             IsPlaying = IsPausing = false;
             Timer = new Timer();
         }
-        public Song(double positionMax, string timeText, double positionValue, float volume, string name, string path, bool isPlaying, bool isPausing, AudioFileReader mp3, Timer timer)
+        public Song(
+            double positionMax, 
+            string timeText, 
+            double positionValue, 
+            float volume, 
+            string name, 
+            string path, 
+            bool isPlaying, 
+            bool isPausing, 
+            AudioFileReader mp3, 
+            Timer timer)
         {
             PositionMax = positionMax;
             TimeText = timeText;

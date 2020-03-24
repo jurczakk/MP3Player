@@ -1,4 +1,7 @@
-﻿namespace MP3Player.Interfaces
+﻿using MP3Player.Interfaces.Commands;
+using MP3Player.Interfaces.Models;
+
+namespace MP3Player.Interfaces.ViewModels
 {
     public interface IPlaylistViewModel
     {

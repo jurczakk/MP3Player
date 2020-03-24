@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using Autofac;
-using MP3Player.Interfaces;
-using MP3Player.Models;
+using MP3Player.Interfaces.ViewModels;
 
 namespace MP3Player.Views
 {

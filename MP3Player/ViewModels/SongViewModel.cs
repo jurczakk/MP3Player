@@ -1,6 +1,7 @@
 using NAudio.Wave;
-using System.Windows.Input;
-using MP3Player.Interfaces;
+using MP3Player.Interfaces.ViewModels;
+using MP3Player.Interfaces.Models;
+using MP3Player.Interfaces.Commands;
 
 namespace MP3Player.ViewModels
 {
@@ -17,12 +18,18 @@ namespace MP3Player.ViewModels
             }
         }
         public WaveOut WaveOut { get; }
-        public ICommand Play { get; private set; }
-        public ICommand Pause { get; private set; }
-        public ICommand PlayNext { get; private set; }
-        public ICommand PlayBack { get; private set; }
+        public IPlayCommand Play { get; private set; }
+        public IPauseCommand Pause { get; private set; }
+        public IPlayNextCommand PlayNext { get; private set; }
+        public IPlayBackCommand PlayBack { get; private set; }
         public SongViewModel() { }
-        public SongViewModel(ISong song, WaveOut waveOut, ICommand play, ICommand pause, ICommand playNext, ICommand playBack)
+        public SongViewModel(
+            ISong song, 
+            WaveOut waveOut, 
+            IPlayCommand play, 
+            IPauseCommand pause, 
+            IPlayNextCommand playNext,
+            IPlayBackCommand playBack)
         {
             Song = song;
             WaveOut = waveOut;

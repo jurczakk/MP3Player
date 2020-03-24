@@ -2,7 +2,7 @@
 using System;
 using System.Timers;
 
-namespace MP3Player.Interfaces
+namespace MP3Player.Interfaces.Models
 {
     public interface ISong
     {

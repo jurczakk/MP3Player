@@ -1,4 +1,4 @@
-using MP3Player.Interfaces;
+using MP3Player.Interfaces.Models;
 using System.Collections.Generic;
 
 namespace MP3Player.Models

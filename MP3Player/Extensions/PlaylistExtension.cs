@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using MP3Player.Interfaces;
+using MP3Player.Interfaces.Models;
 using System.Collections.Generic;
 using System.Linq;
 
