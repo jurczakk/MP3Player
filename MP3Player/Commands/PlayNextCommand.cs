@@ -1,19 +1,19 @@
 ﻿using MP3Player.Enums;
 using MP3Player.Interfaces.Commands;
+using MP3Player.Interfaces.Helpers;
 using MP3Player.Interfaces.Models;
 using System;
 using System.Windows.Input;
-using static MP3Player.Extensions.SongExtension;
 
 namespace MP3Player.Commands
 {
     public class PlayNextCommand : ICommand, IPlayNextCommand
     {
-        private readonly ISong Song;
+        private readonly ISongHelpers SongHelpers;
 
-        public PlayNextCommand(ISong song)
+        public PlayNextCommand(ISongHelpers songHelpers)
         {
-            Song = song;
+            SongHelpers = songHelpers;
         }
 
         public event EventHandler CanExecuteChanged
@@ -24,12 +24,12 @@ namespace MP3Player.Commands
 
         public bool CanExecute(object parameter)
         {
-            return Song.CanPlay(parameter as IPlaylist);
+            return SongHelpers.CanPlay(parameter as IPlaylist);
         }
 
         public void Execute(object parameter)
         {
-            Song.UniversalPlay(parameter as IPlaylist, PlayType.Next, new NAudio.Wave.WaveOut());
+            SongHelpers.UniversalPlay(parameter as IPlaylist, PlayType.Next, new NAudio.Wave.WaveOut());
         }
     }
 }

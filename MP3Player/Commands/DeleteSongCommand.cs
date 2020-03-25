@@ -1,18 +1,17 @@
 ﻿using MP3Player.Interfaces.Commands;
-using MP3Player.Interfaces.Models;
+using MP3Player.Interfaces.Helpers;
 using System;
 using System.Windows.Input;
-using static MP3Player.Extensions.PlaylistExtension;
 
 namespace MP3Player.Commands
 {
     public class DeleteSongCommand : ICommand, IDeleteSongCommand
     {
-        private readonly IPlaylist Playlist;
+        private readonly IPlaylistHelpers PlaylistHelpers;
 
-        public DeleteSongCommand(IPlaylist playlist)
+        public DeleteSongCommand(IPlaylistHelpers playlistHelpers)
         {
-            Playlist = playlist;
+            PlaylistHelpers = playlistHelpers;
         }
 
         public event EventHandler CanExecuteChanged
@@ -23,12 +22,12 @@ namespace MP3Player.Commands
 
         public bool CanExecute(object parameter)
         {
-            return Playlist.CanDeleteOrClear();
+            return PlaylistHelpers.CanDeleteOrClear();
         }
 
         public void Execute(object parameter)
         {
-            Playlist.DeleteFile();
+            PlaylistHelpers.DeleteFile();
         }
     }
 }
