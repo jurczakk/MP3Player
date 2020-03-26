@@ -17,22 +17,22 @@ namespace MP3Player.ViewModels
                 OnPropertyChanged("Song"); 
             }
         }
-        public WaveOut WaveOut { get; }
+        public IWavePlayer WavePlayer { get; }
         public IPlayCommand Play { get; private set; }
         public IPauseCommand Pause { get; private set; }
         public IPlayNextCommand PlayNext { get; private set; }
         public IPlayBackCommand PlayBack { get; private set; }
         public SongViewModel() { }
         public SongViewModel(
-            ISong song, 
-            WaveOut waveOut, 
+            ISong song,
+            IWavePlayer wavePlayer, 
             IPlayCommand play, 
             IPauseCommand pause, 
             IPlayNextCommand playNext,
             IPlayBackCommand playBack)
         {
             Song = song;
-            WaveOut = waveOut;
+            WavePlayer = wavePlayer;
             Play = play;
             Pause = pause;
             PlayNext = playNext;

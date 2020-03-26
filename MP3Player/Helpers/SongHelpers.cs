@@ -32,43 +32,43 @@ namespace MP3Player.Helpers
             return true;
         }
 
-        public void Play(IPlaylist playlist, WaveOut waveOut)
+        public void Play(IPlaylist playlist, IWavePlayer wavePlayer)
         {
             if (!Song.IsPlaying && Song.IsPausing && playlist.SelectedSong == Song.Path)
             {
-                waveOut.Play();
+                wavePlayer.Play();
                 Song.IsPlaying = true;
                 Song.IsPausing = false;
                 return;
             }
             else if (Song.IsPlaying)
             {
-                waveOut.Pause();
+                wavePlayer.Pause();
             }
 
-            PlayerHelper(playlist, waveOut);
+            PlayerHelper(playlist, wavePlayer);
         }
 
-        public void Pause(WaveOut waveOut)
+        public void Pause(IWavePlayer wavePlayer)
         {
-            waveOut.Pause();
+            wavePlayer.Pause();
             Song.IsPlaying = false;
             Song.IsPausing = true;
         }
 
-        public void UniversalPlay(IPlaylist playlist, PlayType playType, WaveOut waveOut)
+        public void UniversalPlay(IPlaylist playlist, PlayType playType, IWavePlayer wavePlayer)
         {
             if (Song.IsPlaying)
             {
-                waveOut.Pause();
+                wavePlayer.Pause();
                 Song.IsPausing = false;
             }
 
             playlist.SelectedSong = GetNewSongPath(playlist.SongsList, playType);
-            PlayerHelper(playlist, waveOut);
+            PlayerHelper(playlist, wavePlayer);
         }
 
-        private void PlayerHelper(IPlaylist playlist, WaveOut waveOut)
+        private void PlayerHelper(IPlaylist playlist, IWavePlayer wavePlayer)
         {
             if (!File.Exists(playlist.SelectedSong))
                 playlist.SongsList.Remove(playlist.SelectedSong);
@@ -83,7 +83,7 @@ namespace MP3Player.Helpers
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
                         playlist.SelectedSong = GetNewSongPath(playlist.SongsList, PlayType.Next);
-                        PlayerHelper(playlist, waveOut);
+                        PlayerHelper(playlist, wavePlayer);
                     }
 
                     Song.TimeText = string.Format("{0} {1}",
@@ -97,8 +97,8 @@ namespace MP3Player.Helpers
                 Song.ChangePosition();
                 Song.Name = Path.GetFileName(Song.MP3.FileName);
                 Song.MP3.Volume = Song.Volume / 100;
-                waveOut.Init(Song.MP3);
-                waveOut.Play();
+                wavePlayer.Init(Song.MP3);
+                wavePlayer.Play();
             }
         }
 
