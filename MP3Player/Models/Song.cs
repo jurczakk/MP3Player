@@ -75,28 +75,5 @@ namespace MP3Player.Models
             IsPlaying = IsPausing = false;
             Timer = new Timer();
         }
-        public Song(
-            double positionMax, 
-            string timeText, 
-            double positionValue, 
-            float volume, 
-            string name, 
-            string path, 
-            bool isPlaying, 
-            bool isPausing, 
-            AudioFileReader mp3, 
-            Timer timer)
-        {
-            PositionMax = positionMax;
-            TimeText = timeText;
-            PositionValue = positionValue;
-            Volume = volume;
-            Name = name;
-            Path = path;
-            IsPlaying = isPlaying;
-            IsPausing = isPausing;
-            MP3 = mp3;
-            Timer = timer;
-        }
     }
 }
