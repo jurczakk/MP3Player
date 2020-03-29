@@ -97,6 +97,7 @@ namespace MP3Player.Helpers
                 Song.ChangePosition();
                 Song.Name = Path.GetFileName(Song.MP3.FileName);
                 Song.MP3.Volume = Song.Volume / 100;
+                //wavePlayer = new WaveFormat(8000, 1);
                 wavePlayer.Init(Song.MP3);
                 wavePlayer.Play();
             }
