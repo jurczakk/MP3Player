@@ -1,4 +1,4 @@
-MP3Player/bin/
-MP3Player/obj/
+src/bin/
+src/obj/
 .vs/
 .vscode
