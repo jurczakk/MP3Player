@@ -1,6 +1,5 @@
 ﻿using MP3Player.Interfaces.Commands;
 using MP3Player.Interfaces.Helpers;
-using NAudio.Wave;
 using System;
 using System.Windows.Input;
 
@@ -9,12 +8,10 @@ namespace MP3Player.Commands
     public class PauseCommand : ICommand, IPauseCommand
     {
         private readonly ISongHelpers SongHelpers;
-        private readonly IWavePlayer WavePlayer;
 
-        public PauseCommand(ISongHelpers songHelpers, IWavePlayer wavePlayer)
+        public PauseCommand(ISongHelpers songHelpers)
         {
             SongHelpers = songHelpers;
-            WavePlayer = wavePlayer;
         }
 
         public event EventHandler CanExecuteChanged
@@ -30,7 +27,7 @@ namespace MP3Player.Commands
 
         public void Execute(object parameter)
         {
-            SongHelpers.Pause(WavePlayer);
+            SongHelpers.Pause();
         }
     }
 }

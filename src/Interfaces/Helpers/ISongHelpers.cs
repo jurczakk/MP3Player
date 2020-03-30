@@ -8,8 +8,8 @@ namespace MP3Player.Interfaces.Helpers
     {
         bool CanPause();
         bool CanPlay(IPlaylist playlist);
-        void Pause(IWavePlayer wavePlayer);
-        void Play(IPlaylist playlist, IWavePlayer wavePlayer);
-        void UniversalPlay(IPlaylist playlist, PlayType playType, IWavePlayer wavePlayer);
+        void Pause();
+        void Play(IPlaylist playlist);
+        void UniversalPlay(IPlaylist playlist, PlayType playType);
     }
 }

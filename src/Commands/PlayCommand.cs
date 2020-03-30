@@ -1,7 +1,6 @@
 ﻿using MP3Player.Interfaces.Commands;
 using MP3Player.Interfaces.Helpers;
 using MP3Player.Interfaces.Models;
-using NAudio.Wave;
 using System;
 using System.Windows.Input;
 
@@ -10,13 +9,10 @@ namespace MP3Player.Commands
     public class PlayCommand : ICommand, IPlayCommand
     {
         private readonly ISongHelpers SongHelpers;
-        private readonly IWavePlayer WavePlayer;
 
-
-        public PlayCommand(ISongHelpers songHelpers, IWavePlayer wavePlayer)
+        public PlayCommand(ISongHelpers songHelpers)
         {
             SongHelpers = songHelpers;
-            WavePlayer = wavePlayer;
         }
 
         public event EventHandler CanExecuteChanged
@@ -32,7 +28,7 @@ namespace MP3Player.Commands
 
         public void Execute(object parameter)
         {
-            SongHelpers.Play(parameter as IPlaylist, WavePlayer);
+            SongHelpers.Play(parameter as IPlaylist);
         }
     }
 }

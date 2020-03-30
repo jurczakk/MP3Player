@@ -12,10 +12,14 @@ namespace MP3Player.Helpers
     public class SongHelpers : ISongHelpers
     {
         private ISong Song;
+        private IWavePlayer WavePlayer;
+
         public SongHelpers() { }
-        public SongHelpers(ISong song)
+        
+        public SongHelpers(ISong song, IWavePlayer wavePlayer)
         {
             Song = song;
+            WavePlayer = wavePlayer;
         }
 
         public bool CanPlay(IPlaylist playlist)
@@ -32,43 +36,43 @@ namespace MP3Player.Helpers
             return true;
         }
 
-        public void Play(IPlaylist playlist, IWavePlayer wavePlayer)
+        public void Play(IPlaylist playlist)
         {
             if (!Song.IsPlaying && Song.IsPausing && playlist.SelectedSong == Song.Path)
             {
-                wavePlayer.Play();
+                WavePlayer.Play();
                 Song.IsPlaying = true;
                 Song.IsPausing = false;
                 return;
             }
             else if (Song.IsPlaying)
             {
-                wavePlayer.Pause();
+                WavePlayer.Pause();
             }
 
-            PlayerHelper(playlist, wavePlayer);
+            PlayerHelper(playlist);
         }
 
-        public void Pause(IWavePlayer wavePlayer)
+        public void Pause()
         {
-            wavePlayer.Pause();
+            WavePlayer.Pause();
             Song.IsPlaying = false;
             Song.IsPausing = true;
         }
 
-        public void UniversalPlay(IPlaylist playlist, PlayType playType, IWavePlayer wavePlayer)
+        public void UniversalPlay(IPlaylist playlist, PlayType playType)
         {
             if (Song.IsPlaying)
             {
-                wavePlayer.Pause();
+                WavePlayer.Pause();
                 Song.IsPausing = false;
             }
 
             playlist.SelectedSong = GetNewSongPath(playlist.SongsList, playType);
-            PlayerHelper(playlist, wavePlayer);
+            PlayerHelper(playlist);
         }
 
-        private void PlayerHelper(IPlaylist playlist, IWavePlayer wavePlayer)
+        private void PlayerHelper(IPlaylist playlist)
         {
             if (!File.Exists(playlist.SelectedSong))
                 playlist.SongsList.Remove(playlist.SelectedSong);
@@ -83,7 +87,7 @@ namespace MP3Player.Helpers
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
                         playlist.SelectedSong = GetNewSongPath(playlist.SongsList, PlayType.Next);
-                        PlayerHelper(playlist, wavePlayer);
+                        PlayerHelper(playlist);
                     }
 
                     Song.TimeText = string.Format("{0} {1}",
@@ -97,9 +101,10 @@ namespace MP3Player.Helpers
                 Song.ChangePosition();
                 Song.Name = Path.GetFileName(Song.MP3.FileName);
                 Song.MP3.Volume = Song.Volume / 100;
+                //wavePlayer = new WaveOut();
                 //wavePlayer = new WaveFormat(8000, 1);
-                wavePlayer.Init(Song.MP3);
-                wavePlayer.Play();
+                WavePlayer.Init(Song.MP3);
+                WavePlayer.Play();
             }
         }
 
