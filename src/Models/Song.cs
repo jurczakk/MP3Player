@@ -16,12 +16,20 @@ namespace MP3Player.Models
         public double PositionMax
         {
             get { return positionMax; }
-            set { positionMax = value; OnPropertyChanged("PositionMax"); }
+            set 
+            { 
+                positionMax = value; 
+                OnPropertyChanged("PositionMax"); 
+            }
         }
         public string TimeText
         {
             get { return timeText; }
-            set { timeText = value; OnPropertyChanged("TimeText"); }
+            set 
+            { 
+                timeText = value; 
+                OnPropertyChanged("TimeText"); 
+            }
         }
         public double PositionValue
         {
@@ -74,6 +82,22 @@ namespace MP3Player.Models
             Volume = volume;
             IsPlaying = IsPausing = false;
             Timer = new Timer();
+        }
+
+        public Song( 
+            string name, 
+            string path, 
+            bool isPlaying, 
+            bool isPausing, 
+            AudioFileReader mp3, 
+            Timer timer)
+        {
+            Name = name;
+            Path = path;
+            IsPlaying = isPlaying;
+            IsPausing = isPausing;
+            MP3 = mp3;
+            Timer = timer;
         }
     }
 }
