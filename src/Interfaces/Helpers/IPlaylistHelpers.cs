@@ -3,6 +3,7 @@
     public interface IPlaylistHelpers
     {
         bool CanDeleteOrClear();
+        bool CanDelete();
         void ClearPlaylist();
         void DeleteFile();
         void OpenFileDialog();

@@ -36,6 +36,13 @@ namespace MP3Player.Helpers
             return true;
         }
 
+        public bool CanDelete()
+        {
+            if (!string.IsNullOrWhiteSpace(Playlist?.SelectedSong))
+                return false;
+            return true;
+        }
+
         public void DeleteFile()
         {
             Playlist.SongsList.Remove(Playlist.SelectedSong);

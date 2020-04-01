@@ -22,7 +22,7 @@ namespace MP3Player.Config
             builder.RegisterType<ObservableCollection<string>>()
                 .InstancePerLifetimeScope().AsSelf().As<IList<string>>();
 
-            builder.RegisterType<WaveOut>().As<IWavePlayer>();
+            builder.Register(c => new WaveOut()).As<IWavePlayer>();
 
             builder.RegisterType<Playlist>().As<IPlaylist>();
             builder.RegisterType<PlaylistHelpers>().As<IPlaylistHelpers>();
@@ -30,7 +30,7 @@ namespace MP3Player.Config
             builder.RegisterType<ClearPlaylistCommand>().As<IClearPlaylistCommand>();
             builder.RegisterType<AddSongsCommand>().As<IAddSongsCommand>();
             builder.RegisterType<PlaylistViewModel>().As<IPlaylistViewModel>();
-
+            
             builder.RegisterType<Song>().As<ISong>();
             builder.RegisterType<SongHelpers>().As<ISongHelpers>();
             builder.RegisterType<PlayCommand>().As<IPlayCommand>();

@@ -22,7 +22,7 @@ namespace MP3Player.Commands
 
         public bool CanExecute(object parameter)
         {
-            return PlaylistHelpers.CanDeleteOrClear();
+            return PlaylistHelpers.CanDelete();
         }
 
         public void Execute(object parameter)
