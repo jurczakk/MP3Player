@@ -56,18 +56,10 @@ namespace MP3Player.Models
         public bool IsPlaying { get; set; }
         public bool IsPausing { get; set; }
         public AudioFileReader MP3 { get; set; }
-        public Timer Timer { get; set; }
 
         public void ChangePosition()
         {
             MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
-        }
-
-        public void CountTime(EventHandler eventHandler)
-        {
-            Timer.Elapsed += new ElapsedEventHandler(eventHandler);
-            Timer.Interval = 1000;
-            Timer.Start();
         }
 
         public Song() { }
@@ -81,7 +73,6 @@ namespace MP3Player.Models
             Path = path;
             Volume = volume;
             IsPlaying = IsPausing = false;
-            Timer = new Timer();
         }
 
         public Song( 
@@ -89,15 +80,13 @@ namespace MP3Player.Models
             string path, 
             bool isPlaying, 
             bool isPausing, 
-            AudioFileReader mp3, 
-            Timer timer)
+            AudioFileReader mp3)
         {
             Name = name;
             Path = path;
             IsPlaying = isPlaying;
             IsPausing = isPausing;
             MP3 = mp3;
-            Timer = timer;
         }
     }
 }

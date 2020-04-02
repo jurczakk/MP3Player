@@ -3,9 +3,11 @@ using MP3Player.Interfaces.Helpers;
 using MP3Player.Interfaces.Models;
 using MP3Player.Models;
 using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Timers;
 
 namespace MP3Player.Helpers
 {
@@ -82,7 +84,7 @@ namespace MP3Player.Helpers
                 Song = new Song(playlist.SelectedSong, Song.Volume) { IsPlaying = true };
                 Song.PositionMax = Song.MP3.TotalTime.TotalSeconds;
 
-                Song.CountTime((obj, e) =>
+                CountTime((obj, e) =>
                 {
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
@@ -100,14 +102,19 @@ namespace MP3Player.Helpers
 
                 Song.ChangePosition();
                 Song.Name = Path.GetFileName(Song.MP3.FileName);
-                Song.MP3 = new AudioFileReader(Song.Path)
-                {
-                    Volume = Song.Volume / 100
-                };
-                WavePlayer = new WaveOut();
+                Song.MP3 = new AudioFileReader(Song.Path) { Volume = Song.Volume / 100 };
+                //WavePlayer = new WaveOut();
                 WavePlayer.Init(Song.MP3);
                 WavePlayer.Play();
             }
+        }
+
+        private void CountTime(EventHandler eventHandler)
+        {
+            var timer = new Timer();
+            timer.Elapsed += new ElapsedEventHandler(eventHandler);
+            timer.Interval = 1000;
+            timer.Start();
         }
 
         private string GetNewSongPath(IList<string> songsList, PlayType playType)
