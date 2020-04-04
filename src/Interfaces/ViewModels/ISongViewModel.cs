@@ -8,7 +8,6 @@ namespace MP3Player.Interfaces.ViewModels
     {
         IPauseCommand Pause { get; }
         IPlayBackCommand PlayBack { get; }
-        IWavePlayer WavePlayer { get; }
         IPlayNextCommand PlayNext { get; }
         IPlayCommand Play { get; }
         ISong Song { get; set; }

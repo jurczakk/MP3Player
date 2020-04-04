@@ -14,14 +14,13 @@ namespace MP3Player.Helpers
     public class SongHelpers : ISongHelpers
     {
         private ISong Song;
-        private IWavePlayer WavePlayer;
+        private WaveOut WavePlayer = new WaveOut();
 
         public SongHelpers() { }
         
-        public SongHelpers(ISong song, IWavePlayer wavePlayer)
+        public SongHelpers(ISong song)
         {
             Song = song;
-            WavePlayer = wavePlayer;
         }
 
         public bool CanPlay(IPlaylist playlist)
@@ -92,9 +91,8 @@ namespace MP3Player.Helpers
                         PlayerHelper(playlist);
                     }
 
-                    Song.TimeText = string.Format("{0} {1}",
-                        Song.MP3.CurrentTime.ToString(@"hh\:mm\:ss"),
-                        Song.MP3.TotalTime.ToString().Split('.')[0]);
+                    Song.TimeText = 
+                        $"{Song.MP3.CurrentTime:hh\\:mm\\:ss} {Song.MP3.TotalTime.ToString().Split('.')[0]}";
 
                     if (Song.IsPlaying)
                         Song.PositionValue = Song.MP3.CurrentTime.TotalSeconds;
@@ -103,7 +101,7 @@ namespace MP3Player.Helpers
                 Song.ChangePosition();
                 Song.Name = Path.GetFileName(Song.MP3.FileName);
                 Song.MP3 = new AudioFileReader(Song.Path) { Volume = Song.Volume / 100 };
-                //WavePlayer = new WaveOut();
+                //Song.Volume = 70f;
                 WavePlayer.Init(Song.MP3);
                 WavePlayer.Play();
             }

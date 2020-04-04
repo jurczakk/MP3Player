@@ -17,7 +17,6 @@ namespace MP3Player.ViewModels
                 OnPropertyChanged("Song"); 
             }
         }
-        public IWavePlayer WavePlayer { get; }
         public IPlayCommand Play { get; private set; }
         public IPauseCommand Pause { get; private set; }
         public IPlayNextCommand PlayNext { get; private set; }
@@ -25,14 +24,12 @@ namespace MP3Player.ViewModels
         public SongViewModel() { }
         public SongViewModel(
             ISong song,
-            IWavePlayer wavePlayer, 
             IPlayCommand play, 
             IPauseCommand pause, 
             IPlayNextCommand playNext,
             IPlayBackCommand playBack)
         {
             Song = song;
-            WavePlayer = wavePlayer;
             Play = play;
             Pause = pause;
             PlayNext = playNext;
