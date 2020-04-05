@@ -7,7 +7,9 @@ namespace MP3Player.Models
     {
         public IList<string> SongsList { get; set; }
         public string SelectedSong { get; set; }
-        public Playlist() { }
+        public Playlist()
+        {
+        }
         public Playlist(IList<string> songsList)
         {
             SongsList = songsList;

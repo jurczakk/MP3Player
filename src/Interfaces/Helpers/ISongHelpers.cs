@@ -1,6 +1,5 @@
 ﻿using MP3Player.Enums;
 using MP3Player.Interfaces.Models;
-using NAudio.Wave;
 
 namespace MP3Player.Interfaces.Helpers
 {

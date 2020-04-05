@@ -11,7 +11,9 @@ namespace MP3Player.Helpers
     {
         private IPlaylist Playlist;
 
-        public PlaylistHelpers() { }
+        public PlaylistHelpers()
+        {
+        }
         
         public PlaylistHelpers(IPlaylist playlist)
         {

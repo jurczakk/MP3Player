@@ -14,9 +14,11 @@ namespace MP3Player.Helpers
     public class SongHelpers : ISongHelpers
     {
         private ISong Song;
-        private WaveOut WavePlayer = new WaveOut();
+        private readonly WaveOut WavePlayer = new WaveOut();
 
-        public SongHelpers() { }
+        public SongHelpers()
+        { 
+        }
         
         public SongHelpers(ISong song)
         {

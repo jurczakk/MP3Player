@@ -10,8 +10,8 @@ namespace MP3Player.Views
         {
             InitializeComponent();
             var container = Config.Container.Configure();
-            using (var scope = container.BeginLifetimeScope())
-                DataContext = scope.Resolve<IMainViewModel>();
+            using var scope = container.BeginLifetimeScope();
+            DataContext = scope.Resolve<IMainViewModel>();
         }
     }
 }

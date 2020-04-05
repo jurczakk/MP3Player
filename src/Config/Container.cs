@@ -7,7 +7,6 @@ using MP3Player.Interfaces.Models;
 using MP3Player.Interfaces.ViewModels;
 using MP3Player.Models;
 using MP3Player.ViewModels;
-using NAudio.Wave;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -21,8 +20,6 @@ namespace MP3Player.Config
 
             builder.RegisterType<ObservableCollection<string>>()
                 .InstancePerLifetimeScope().AsSelf().As<IList<string>>();
-
-            //builder.Register(c => new WaveOut()).As<IWavePlayer>();
 
             builder.RegisterType<Playlist>().As<IPlaylist>();
             builder.RegisterType<PlaylistHelpers>().As<IPlaylistHelpers>();

@@ -6,7 +6,9 @@ namespace MP3Player.ViewModels
     {
         public IPlaylistViewModel PlaylistViewModel { get; }
         public ISongViewModel SongViewModel { get; }
-        public MainViewModel() { }
+        public MainViewModel()
+        { 
+        }
         public MainViewModel(IPlaylistViewModel playlistViewModel, ISongViewModel songViewModel)
         {
             PlaylistViewModel = playlistViewModel;

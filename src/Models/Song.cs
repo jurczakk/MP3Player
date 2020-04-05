@@ -2,7 +2,6 @@
 using MP3Player.ViewModels;
 using NAudio.Wave;
 using System;
-using System.Timers;
 
 namespace MP3Player.Models
 {
@@ -15,25 +14,34 @@ namespace MP3Player.Models
 
         public double PositionMax
         {
-            get { return positionMax; }
-            set 
+            get 
             { 
-                positionMax = value; 
-                OnPropertyChanged("PositionMax"); 
+                return positionMax; 
+            }
+            set
+            {
+                positionMax = value;
+                OnPropertyChanged("PositionMax");
             }
         }
         public string TimeText
         {
-            get { return timeText; }
-            set 
+            get 
             { 
-                timeText = value; 
-                OnPropertyChanged("TimeText"); 
+                return timeText; 
+            }
+            set
+            {
+                timeText = value;
+                OnPropertyChanged("TimeText");
             }
         }
         public double PositionValue
         {
-            get { return positionValue; }
+            get 
+            { 
+                return positionValue; 
+            }
             set
             {
                 positionValue = value;
@@ -43,11 +51,15 @@ namespace MP3Player.Models
         }
         public float Volume
         {
-            get { return volume; }
+            get 
+            { 
+                return volume; 
+            }
             set
             {
                 volume = float.Parse(value.ToString("0"));
-                if (MP3 != null) MP3.Volume = volume / 100;
+                if (MP3 != null)
+                    MP3.Volume = volume / 100;
                 OnPropertyChanged("Volume");
             }
         }
@@ -62,7 +74,9 @@ namespace MP3Player.Models
             MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
         }
 
-        public Song() { }
+        public Song()
+        { 
+        }
         public Song(string path = "", float volume = 0f)
         {
             if (!string.IsNullOrWhiteSpace(path))
@@ -73,20 +87,6 @@ namespace MP3Player.Models
             Path = path;
             Volume = volume;
             IsPlaying = IsPausing = false;
-        }
-
-        public Song( 
-            string name, 
-            string path, 
-            bool isPlaying, 
-            bool isPausing, 
-            AudioFileReader mp3)
-        {
-            Name = name;
-            Path = path;
-            IsPlaying = isPlaying;
-            IsPausing = isPausing;
-            MP3 = mp3;
         }
     }
 }

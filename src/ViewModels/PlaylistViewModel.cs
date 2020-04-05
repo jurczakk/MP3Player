@@ -10,7 +10,9 @@ namespace MP3Player.ViewModels
         public IAddSongsCommand AddSongs { get; private set; }
         public IDeleteSongCommand DeleteSong { get; private set; }
         public IClearPlaylistCommand ClearPlaylist { get; private set; }
-        public PlaylistViewModel() { }
+        public PlaylistViewModel()
+        { 
+        }
         public PlaylistViewModel(
             IPlaylist playlist, 
             IAddSongsCommand addSongs, 

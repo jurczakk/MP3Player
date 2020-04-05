@@ -1,4 +1,3 @@
-using NAudio.Wave;
 using MP3Player.Interfaces.ViewModels;
 using MP3Player.Interfaces.Models;
 using MP3Player.Interfaces.Commands;
@@ -10,7 +9,10 @@ namespace MP3Player.ViewModels
         private ISong song;
         public ISong Song 
         {
-            get { return song; }
+            get 
+            { 
+                return song; 
+            }
             set 
             {
                 song = value; 
@@ -21,7 +23,9 @@ namespace MP3Player.ViewModels
         public IPauseCommand Pause { get; private set; }
         public IPlayNextCommand PlayNext { get; private set; }
         public IPlayBackCommand PlayBack { get; private set; }
-        public SongViewModel() { }
+        public SongViewModel()
+        { 
+        }
         public SongViewModel(
             ISong song,
             IPlayCommand play, 
