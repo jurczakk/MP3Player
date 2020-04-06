@@ -2,6 +2,7 @@
 using MP3Player.Interfaces.Helpers;
 using MP3Player.Interfaces.Models;
 using MP3Player.Models;
+using MP3Player.ViewModels;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,19 @@ using System.Timers;
 
 namespace MP3Player.Helpers
 {
-    public class SongHelpers : ISongHelpers
+    public class SongHelpers : BaseViewModel, ISongHelpers
     {
-        private ISong Song;
+        private ISong song;
+
+        public ISong Song 
+        {
+            get { return song; }
+            set 
+            { 
+                song = value;
+                OnPropertyChanged("Song");
+            }
+        }
         private readonly WaveOut WavePlayer = new WaveOut();
 
         public SongHelpers()
@@ -103,7 +114,6 @@ namespace MP3Player.Helpers
                 Song.ChangePosition();
                 Song.Name = Path.GetFileName(Song.MP3.FileName);
                 Song.MP3 = new AudioFileReader(Song.Path) { Volume = Song.Volume / 100 };
-                //Song.Volume = 70f;
                 WavePlayer.Init(Song.MP3);
                 WavePlayer.Play();
             }

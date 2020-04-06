@@ -68,14 +68,8 @@ namespace MP3Player.Models
         public bool IsPlaying { get; set; }
         public bool IsPausing { get; set; }
         public AudioFileReader MP3 { get; set; }
-
-        public void ChangePosition()
-        {
-            MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
-        }
-
         public Song()
-        { 
+        {
         }
         public Song(string path = "", float volume = 0f)
         {
@@ -87,6 +81,10 @@ namespace MP3Player.Models
             Path = path;
             Volume = volume;
             IsPlaying = IsPausing = false;
+        }
+        public void ChangePosition()
+        {
+            MP3.CurrentTime = TimeSpan.FromSeconds(PositionValue);
         }
     }
 }
