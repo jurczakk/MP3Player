@@ -27,7 +27,7 @@ namespace MP3Player.Config
             builder.RegisterType<ClearPlaylistCommand>().As<IClearPlaylistCommand>();
             builder.RegisterType<AddSongsCommand>().As<IAddSongsCommand>();
             builder.RegisterType<PlaylistViewModel>().As<IPlaylistViewModel>();
-            
+
             builder.RegisterType<Song>().As<ISong>();
             builder.RegisterType<SongHelpers>().As<ISongHelpers>();
             builder.RegisterType<PlayCommand>().As<IPlayCommand>();

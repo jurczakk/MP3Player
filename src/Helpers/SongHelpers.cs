@@ -14,27 +14,17 @@ namespace MP3Player.Helpers
 {
     public class SongHelpers : BaseViewModel, ISongHelpers
     {
-        private ISong song;
-
-        public ISong Song 
-        {
-            get { return song; }
-            set 
-            { 
-                song = value;
-                OnPropertyChanged("Song");
-            }
-        }
+        private ISong Song = new Song();
         private readonly WaveOut WavePlayer = new WaveOut();
 
         public SongHelpers()
         { 
         }
         
-        public SongHelpers(ISong song)
-        {
-            Song = song;
-        }
+        //public SongHelpers(ISong song)
+        //{
+        //    Song = song;
+        //}
 
         public bool CanPlay(IPlaylist playlist)
         {
