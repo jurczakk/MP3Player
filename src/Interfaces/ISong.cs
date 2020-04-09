@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace MP3Player.Interfaces.Models
+namespace MP3Player.Interfaces
 {
     public interface ISong
     {
@@ -13,6 +13,5 @@ namespace MP3Player.Interfaces.Models
         double PositionValue { get; set; }
         string TimeText { get; set; }
         float Volume { get; set; }
-        void ChangePosition();
     }
 }

@@ -1,4 +1,4 @@
-using MP3Player.Interfaces.ViewModels;
+using MP3Player.Interfaces;
 
 namespace MP3Player.ViewModels
 {
@@ -6,13 +6,11 @@ namespace MP3Player.ViewModels
     {
         public IPlaylistViewModel PlaylistViewModel { get; }
         public ISongViewModel SongViewModel { get; }
-        public MainViewModel()
-        { 
-        }
-        public MainViewModel(IPlaylistViewModel playlistViewModel, ISongViewModel songViewModel)
+        public MainViewModel() { }
+        public MainViewModel(ISongViewModel songViewModel, IPlaylistViewModel playlistViewModel)
         {
-            PlaylistViewModel = playlistViewModel;
             SongViewModel = songViewModel;
+            PlaylistViewModel = playlistViewModel;
         }
     }
 }
