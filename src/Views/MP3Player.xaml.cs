@@ -8,7 +8,8 @@ namespace MP3Player.Views
         public MP3Player()
         {
             InitializeComponent();
-            DataContext = BootStraper.ResolveConfig();
+            // DataContext = BootStraper.ResolveConfig();
+            DataContext = Container.GetMainViewModel();
         }
     }
 }

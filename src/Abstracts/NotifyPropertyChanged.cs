@@ -1,9 +1,8 @@
-﻿using MP3Player.Interfaces.ViewModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace MP3Player.ViewModels
+namespace MP3Player.Abstracts
 {
-    public class BaseViewModel : INotifyPropertyChanged, IBaseViewModel
+    public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string property)
