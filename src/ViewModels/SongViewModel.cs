@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System;
 using System.Windows;
+using NAudio.CoreAudioApi;
 
 namespace MP3Player.ViewModels
 {
@@ -65,7 +66,7 @@ namespace MP3Player.ViewModels
                 return false;
             return true;
         }
-        
+
         private bool CanPlay(IPlaylist playlist)
         {
             if (Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong?.Item2))
@@ -89,7 +90,7 @@ namespace MP3Player.ViewModels
 
             PlayerHelper(playlist);
         }
-        
+
         private void PauseSong()
         {
             WavePlayer.Pause();
@@ -141,13 +142,14 @@ namespace MP3Player.ViewModels
 
         private Tuple<int, string> GetNewSongPath(IPlaylist playlist, PlayType playType)
         {
-            var currentId = playlist.SelectedSong.Item1;
-            var Id = currentId == 0 ? playlist.SongsList.Count - 1 : currentId - 1;
+            var id = playlist.SelectedSong.Item1;
 
+            if (playType == PlayType.Back)
+                id = id == 0 ? playlist.SongsList.Count - 1 : id - 1;
             if (playType == PlayType.Next)
-                Id = currentId == playlist.SongsList.Count - 1 ? 0 : currentId + 1;
+                id = id == playlist.SongsList.Count - 1 ? 0 : id + 1;
 
-            return playlist.SongsList[Id];
+            return playlist.SongsList[id];
         }
     }
 }

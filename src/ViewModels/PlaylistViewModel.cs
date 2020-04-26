@@ -55,7 +55,7 @@ namespace MP3Player.ViewModels
             var fileDialog = new OpenFileDialog { Multiselect = true };
             if (fileDialog.ShowDialog() != null)
                 foreach (var filename in fileDialog.FileNames.Where(x => x.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase)))
-                    Playlist.SongsList.Add(new Tuple<int, string>(Playlist.SongsList.Count + 1, filename));
+                    Playlist.SongsList.Add(new Tuple<int, string>(Playlist.SongsList.Count, filename));
             MessageBox.Show(Playlist.SongsList.Count.ToString());
         }
     }
