@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using System.Linq;
 using System;
-using System.Windows;
+using MP3Player.Models;
 
 namespace MP3Player.ViewModels
 {
@@ -46,8 +46,8 @@ namespace MP3Player.ViewModels
         private void Delete()
         {
             Playlist.SongsList.Remove(Playlist.SelectedSong);
-            // Reset Ids
-            //Playlist.SongsList.
+            for (int i = 0; i < Playlist.SongsList.Count; i++)
+                Playlist.SongsList[i].Id = i;
         }
 
         private void OpenFileDialog()
@@ -55,8 +55,7 @@ namespace MP3Player.ViewModels
             var fileDialog = new OpenFileDialog { Multiselect = true };
             if (fileDialog.ShowDialog() != null)
                 foreach (var filename in fileDialog.FileNames.Where(x => x.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase)))
-                    Playlist.SongsList.Add(new Tuple<int, string>(Playlist.SongsList.Count, filename));
-            MessageBox.Show(Playlist.SongsList.Count.ToString());
+                    Playlist.SongsList.Add(new SongData { Id = Playlist.SongsList.Count, Path = filename });
         }
     }
 }

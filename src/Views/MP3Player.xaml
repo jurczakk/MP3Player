@@ -45,7 +45,7 @@
             </ListView.Resources>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Foreground="#7dff00" Text="{Binding}">
+                    <TextBlock Foreground="#7dff00" Text="{Binding Path=Path}">
                         <TextBlock.InputBindings>
                             <MouseBinding 
                                 MouseAction="LeftDoubleClick" 

@@ -2,7 +2,6 @@
 using MP3Player.Models;
 using MP3Player.ViewModels;
 using MP3Player.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -13,13 +12,9 @@ namespace MP3Player.Config
         public static IContainer Configure()
         {
             var builder = new ContainerBuilder();
-            
-            //builder.RegisterType<ObservableCollection<string>>()
-            //    .InstancePerLifetimeScope().AsSelf().As<IList<string>>();
 
-            builder.RegisterType<ObservableCollection<Tuple<int, string>>>()
-                .InstancePerLifetimeScope().AsSelf().As < IList<Tuple<int, string>>>();
-              
+            builder.Register(c => new ObservableCollection<ISongData> { }).As<IList<ISongData>>();
+            builder.RegisterType<SongData>().As<ISongData>();
             builder.RegisterType<Song>().As<ISong>();
             builder.RegisterType<Playlist>().As<IPlaylist>();
             builder.RegisterType<SongViewModel>().As<ISongViewModel>();

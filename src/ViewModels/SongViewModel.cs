@@ -69,14 +69,14 @@ namespace MP3Player.ViewModels
 
         private bool CanPlay(IPlaylist playlist)
         {
-            if (Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong?.Item2))
+            if (Song == null || string.IsNullOrWhiteSpace(playlist?.SelectedSong?.Path))
                 return false;
             return true;
         }
 
         private void PlaySong(IPlaylist playlist)
         {
-            if (!Song.IsPlaying && Song.IsPausing && playlist.SelectedSong.Item2 == Song.Path)
+            if (!Song.IsPlaying && Song.IsPausing && playlist.SelectedSong.Path == Song.Path)
             {
                 WavePlayer.Play();
                 Song.IsPlaying = true;
@@ -113,12 +113,12 @@ namespace MP3Player.ViewModels
 
         private void PlayerHelper(IPlaylist playlist)
         {
-            if (!File.Exists(playlist.SelectedSong.Item2))
+            if (!File.Exists(playlist.SelectedSong.Path))
                 playlist.SongsList.Remove(playlist.SelectedSong);
 
-            if (!string.IsNullOrWhiteSpace(playlist.SelectedSong.Item2) && File.Exists(playlist.SelectedSong.Item2))
+            if (!string.IsNullOrWhiteSpace(playlist.SelectedSong.Path) && File.Exists(playlist.SelectedSong.Path))
             {
-                Song = new Song(playlist.SelectedSong.Item2, Song.Volume) { IsPlaying = true };
+                Song = new Song(playlist.SelectedSong.Path, Song.Volume) { IsPlaying = true };
                 WavePlayer = new WaveOut();
                 WavePlayer.Init(Song.MP3);
                 WavePlayer.Play();
@@ -140,15 +140,25 @@ namespace MP3Player.ViewModels
             }
         }
 
-        private Tuple<int, string> GetNewSongPath(IPlaylist playlist, PlayType playType)
+        private ISongData GetNewSongPath(IPlaylist playlist, PlayType playType)
         {
-            var id = playlist.SelectedSong.Item1;
-
-            if (playType == PlayType.Back)
-                id = id == 0 ? playlist.SongsList.Count - 1 : id - 1;
+            var id = playlist.SelectedSong.Id;
+            
             if (playType == PlayType.Next)
-                id = id == playlist.SongsList.Count - 1 ? 0 : id + 1;
-
+            {
+                if (id == playlist.SongsList.Count - 1)
+                    id = 0;
+                else
+                    id++;
+            }
+            else if (playType == PlayType.Back)
+            {
+                if (id == 0)
+                    id = playlist.SongsList.Count - 1;
+                else
+                    id--;
+            }
+            
             return playlist.SongsList[id];
         }
     }
