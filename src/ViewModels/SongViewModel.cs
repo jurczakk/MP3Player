@@ -119,7 +119,6 @@ namespace MP3Player.ViewModels
             if (!string.IsNullOrWhiteSpace(playlist.SelectedSong.Path) && File.Exists(playlist.SelectedSong.Path))
             {
                 Song = new Song(playlist.SelectedSong.Path, Song.Volume) { IsPlaying = true };
-                WavePlayer = new WaveOut();
                 WavePlayer.Init(Song.MP3);
                 WavePlayer.Play();
 
@@ -127,6 +126,9 @@ namespace MP3Player.ViewModels
                 {
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)
                     {
+                        if (playlist.SelectedSong == null)
+                            return;
+
                         playlist.SelectedSong = GetNewSongPath(playlist, PlayType.Next);
                         PlayerHelper(playlist);
                     }
@@ -143,20 +145,29 @@ namespace MP3Player.ViewModels
         private ISongData GetNewSongPath(IPlaylist playlist, PlayType playType)
         {
             var id = playlist.SelectedSong.Id;
-            
+            var lastElement = playlist.SongsList.Count - 1;
+
             if (playType == PlayType.Next)
             {
-                if (id == playlist.SongsList.Count - 1)
+                if (id == lastElement)
+                {
                     id = 0;
+                }
                 else
-                    id++;
+                {
+                    ++id;
+                }
             }
             else if (playType == PlayType.Back)
             {
                 if (id == 0)
-                    id = playlist.SongsList.Count - 1;
+                {
+                    id = lastElement;
+                }
                 else
-                    id--;
+                {
+                    --id;
+                }
             }
             
             return playlist.SongsList[id];

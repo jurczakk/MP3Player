@@ -47,8 +47,8 @@
                 <DataTemplate>
                     <TextBlock Foreground="#7dff00" Text="{Binding Path=Path}">
                         <TextBlock.InputBindings>
-                            <MouseBinding 
-                                MouseAction="LeftDoubleClick" 
+                            <MouseBinding
+                                MouseAction="LeftDoubleClick"
                                 Command="{Binding ElementName=MainGrid, Path=DataContext.SongViewModel.Play}" 
                                 CommandParameter="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.Playlist}"/>
                         </TextBlock.InputBindings>
