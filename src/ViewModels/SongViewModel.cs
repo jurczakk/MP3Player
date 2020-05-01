@@ -2,16 +2,12 @@ using MP3Player.Commands;
 using MP3Player.Enums;
 using MP3Player.Abstracts;
 using MP3Player.Interfaces;
+using MP3Player.Models;
 using System.Windows.Input;
 using NAudio.Wave;
-using MP3Player.Models;
-using System.Collections.Generic;
 using System.Threading;
 using System.IO;
 using System.Linq;
-using System;
-using System.Windows;
-using NAudio.CoreAudioApi;
 
 namespace MP3Player.ViewModels
 {

@@ -17,7 +17,7 @@
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>    
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -32,7 +32,8 @@
         <ListView Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="4"
                   ItemsSource="{Binding PlaylistViewModel.Playlist.SongsList}"
                   SelectedValue="{Binding PlaylistViewModel.Playlist.SelectedSong}"
-                  AllowDrop="False" Background="Black">
+                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                  AllowDrop="True" Background="Black">
             <ListView.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.DeleteSong}"/>
                 <KeyBinding Key="Enter"  Command="{Binding ElementName=MainGrid, Path=DataContext.SongViewModel.Play}" 
@@ -45,10 +46,10 @@
             </ListView.Resources>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Foreground="#7dff00" Text="{Binding Path=Path}">
+                    <TextBlock Foreground="#7dff00" Text="{Binding Path}">
                         <TextBlock.InputBindings>
-                            <MouseBinding
-                                MouseAction="LeftDoubleClick"
+                            <MouseBinding 
+                                MouseAction="LeftDoubleClick" 
                                 Command="{Binding ElementName=MainGrid, Path=DataContext.SongViewModel.Play}" 
                                 CommandParameter="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.Playlist}"/>
                         </TextBlock.InputBindings>
