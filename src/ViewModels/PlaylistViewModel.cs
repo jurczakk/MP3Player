@@ -5,6 +5,8 @@ using Microsoft.Win32;
 using System.Linq;
 using System;
 using MP3Player.Models;
+using System.Windows;
+using System.Runtime.CompilerServices;
 
 namespace MP3Player.ViewModels
 {
@@ -54,8 +56,13 @@ namespace MP3Player.ViewModels
         {
             var fileDialog = new OpenFileDialog { Multiselect = true };
             if (fileDialog.ShowDialog() != null)
-                foreach (var filename in fileDialog.FileNames.Where(x => x.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase)))
-                    Playlist.SongsList.Add(new SongData { Id = Playlist.SongsList.Count, Path = filename });
+                AddPaths(fileDialog.FileNames);
+        }    
+
+        public void AddPaths(string[] paths)
+        {
+            foreach (var filename in paths.Where(x => x.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase)))
+                Playlist.SongsList.Add(new SongData { Id = Playlist.SongsList.Count, Path = filename });
         }
     }
 }

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="MP3Player" Height="650" Width="800">
+
     <Grid Background="#3B4347" Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -33,6 +34,7 @@
                   ItemsSource="{Binding PlaylistViewModel.Playlist.SongsList}"
                   SelectedValue="{Binding PlaylistViewModel.Playlist.SelectedSong}"
                   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                  DragDrop.Drop="ListView_Drop" 
                   AllowDrop="True" Background="Black">
             <ListView.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding ElementName=MainGrid, Path=DataContext.PlaylistViewModel.DeleteSong}"/>
