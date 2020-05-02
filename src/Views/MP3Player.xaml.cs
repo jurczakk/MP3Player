@@ -12,7 +12,7 @@ namespace MP3Player.Views
         public MP3Player()
         {
             InitializeComponent();
-            MainViewModel = Container.GetMainViewModel();
+            MainViewModel = Container.ResolveMainViewModel();
             DataContext = MainViewModel;
         }
 
