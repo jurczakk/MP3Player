@@ -3,6 +3,7 @@ os: windows
 mono: none
 dotnet: 3.1.201
 script:
+  - choco install dotnetcore-sdk
   - dotnet restore MP3Player.sln
   - dotnet build MP3Player.sln
 
