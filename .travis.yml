@@ -8,7 +8,7 @@ install:
 script:
   - dotnet restore 
   - dotnet build
+  - dotnet publish -c release
 
-# dotnet: 3.1.201 is not working on 'os:windows'
-# some workaround with choco
+# dotnet: 3.1.201 is not working with 'os:windows' I am using a workaround with choco
 # https://travis-ci.community/t/dotnet-core-3-1-1-on-windows/6609/2
