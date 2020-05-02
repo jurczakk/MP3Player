@@ -1,9 +1,14 @@
 language : csharp
 os: windows
 mono: none
-script:
-  - choco install dotnetcore-sdk
-  - dotnet --version
-  - dotnet restore MP3Player.sln
-  - dotnet build MP3Player.sln
 
+install:
+  - choco install dotnetcore-sdk
+
+script:
+  - dotnet restore 
+  - dotnet build
+
+# dotnet: 3.1.201 is not working on 'os:windows'
+# some workaround with choco
+# https://travis-ci.community/t/dotnet-core-3-1-1-on-windows/6609/2
