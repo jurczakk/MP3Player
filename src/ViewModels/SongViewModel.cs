@@ -8,6 +8,7 @@ using NAudio.Wave;
 using System.Threading;
 using System.IO;
 using System.Linq;
+using System;
 
 namespace MP3Player.ViewModels
 {
@@ -117,7 +118,6 @@ namespace MP3Player.ViewModels
                 Song = new Song(playlist.SelectedSong.Path, Song.Volume) { IsPlaying = true };
                 WavePlayer.Init(Song.MP3);
                 WavePlayer.Play();
-
                 Timer = new Timer(e =>
                 {
                     if (Song.MP3.CurrentTime == Song.MP3.TotalTime && playlist.SongsList.FirstOrDefault() != null)

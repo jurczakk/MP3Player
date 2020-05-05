@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using Autofac;
 using MP3Player.Config;
 using MP3Player.Interfaces;
 using MP3Player.ViewModels;
@@ -12,7 +13,8 @@ namespace MP3Player.Views
         public MP3Player()
         {
             InitializeComponent();
-            MainViewModel = Container.ResolveMainViewModel();
+            using var scope = Container.Configure().BeginLifetimeScope();
+            MainViewModel = scope.Resolve<IMainViewModel>();
             DataContext = MainViewModel;
         }
 

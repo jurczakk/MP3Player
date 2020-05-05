@@ -23,11 +23,5 @@ namespace MP3Player.Config
 
             return builder.Build();
         }
-
-        public static IMainViewModel ResolveMainViewModel()
-        {
-            using var scope = Configure().BeginLifetimeScope();
-            return scope.Resolve<IMainViewModel>();
-        }
     }
 }

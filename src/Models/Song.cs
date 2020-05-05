@@ -33,7 +33,6 @@ namespace MP3Player.Models
             set
             {
                 timeText = value;
-
                 OnPropertyChanged("TimeText");
             }
         }
